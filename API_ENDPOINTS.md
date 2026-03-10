@@ -3,13 +3,15 @@
 Tài liệu này mô tả tất cả các API endpoints có sẵn trong dự án BookNest.
 
 ## Base URL
+
 ```
-http://localhost:3000
+http://localhost:8080
 ```
 
 ---
 
 ## 📋 Mục lục
+
 - [Root](#root)
 - [Authentication](#authentication)
 - [Books](#books)
@@ -25,6 +27,7 @@ http://localhost:3000
 ## Root
 
 ### Get Hello
+
 Endpoint kiểm tra server hoạt động.
 
 **Endpoint:** `GET /`
@@ -32,6 +35,7 @@ Endpoint kiểm tra server hoạt động.
 **Authentication:** Public
 
 **Response:**
+
 ```json
 "Hello World!"
 ```
@@ -41,6 +45,7 @@ Endpoint kiểm tra server hoạt động.
 ## Authentication
 
 ### 1. Register
+
 Đăng ký tài khoản mới.
 
 **Endpoint:** `POST /auth/register`
@@ -50,6 +55,7 @@ Endpoint kiểm tra server hoạt động.
 **Rate Limit:** 3 requests/phút
 
 **Request Body:**
+
 ```json
 {
   "email": "user@example.com",
@@ -59,6 +65,7 @@ Endpoint kiểm tra server hoạt động.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Registration successful. Please check your email to verify your account."
@@ -68,6 +75,7 @@ Endpoint kiểm tra server hoạt động.
 ---
 
 ### 2. Login
+
 Đăng nhập vào hệ thống.
 
 **Endpoint:** `POST /auth/login`
@@ -77,6 +85,7 @@ Endpoint kiểm tra server hoạt động.
 **Rate Limit:** 5 requests/phút
 
 **Request Body:**
+
 ```json
 {
   "email": "user@example.com",
@@ -85,6 +94,7 @@ Endpoint kiểm tra server hoạt động.
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -101,6 +111,7 @@ Endpoint kiểm tra server hoạt động.
 ---
 
 ### 3. Get Current User
+
 Lấy thông tin người dùng hiện tại.
 
 **Endpoint:** `GET /auth/me`
@@ -110,6 +121,7 @@ Lấy thông tin người dùng hiện tại.
 **Cache:** 1 hour
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -124,6 +136,7 @@ Lấy thông tin người dùng hiện tại.
 ---
 
 ### 4. Change Password
+
 Thay đổi mật khẩu.
 
 **Endpoint:** `POST /auth/change-password`
@@ -133,6 +146,7 @@ Thay đổi mật khẩu.
 **Rate Limit:** 5 requests/phút
 
 **Request Body:**
+
 ```json
 {
   "currentPassword": "oldpassword123",
@@ -142,6 +156,7 @@ Thay đổi mật khẩu.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Password changed successfully"
@@ -151,6 +166,7 @@ Thay đổi mật khẩu.
 ---
 
 ### 5. Verify Email
+
 Xác thực email qua token.
 
 **Endpoint:** `GET /auth/verify-email?token={verification_token}`
@@ -160,9 +176,11 @@ Xác thực email qua token.
 **Rate Limit:** 10 requests/phút
 
 **Query Parameters:**
+
 - `token`: Verification token từ email
 
 **Response:**
+
 ```json
 {
   "message": "Email verified successfully"
@@ -172,6 +190,7 @@ Xác thực email qua token.
 ---
 
 ### 6. Resend Verification Email
+
 Gửi lại email xác thực.
 
 **Endpoint:** `POST /auth/resend-verification`
@@ -181,6 +200,7 @@ Gửi lại email xác thực.
 **Rate Limit:** 3 requests/5 phút
 
 **Request Body:**
+
 ```json
 {
   "email": "user@example.com"
@@ -188,6 +208,7 @@ Gửi lại email xác thực.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Verification email sent"
@@ -197,6 +218,7 @@ Gửi lại email xác thực.
 ---
 
 ### 7. Forgot Password
+
 Yêu cầu reset mật khẩu.
 
 **Endpoint:** `POST /auth/forgot-password`
@@ -206,6 +228,7 @@ Yêu cầu reset mật khẩu.
 **Rate Limit:** 3 requests/5 phút
 
 **Request Body:**
+
 ```json
 {
   "email": "user@example.com"
@@ -213,6 +236,7 @@ Yêu cầu reset mật khẩu.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Password reset email sent"
@@ -222,6 +246,7 @@ Yêu cầu reset mật khẩu.
 ---
 
 ### 8. Reset Password
+
 Reset mật khẩu với token.
 
 **Endpoint:** `POST /auth/reset-password`
@@ -231,6 +256,7 @@ Reset mật khẩu với token.
 **Rate Limit:** 5 requests/phút
 
 **Request Body:**
+
 ```json
 {
   "token": "reset_token_from_email",
@@ -240,6 +266,7 @@ Reset mật khẩu với token.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Password reset successfully"
@@ -249,6 +276,7 @@ Reset mật khẩu với token.
 ---
 
 ### 9. Cleanup Unverified Users
+
 Xóa các tài khoản chưa xác thực (Admin only).
 
 **Endpoint:** `POST /auth/cleanup-unverified`
@@ -256,6 +284,7 @@ Xóa các tài khoản chưa xác thực (Admin only).
 **Authentication:** Required (Admin role)
 
 **Response:**
+
 ```json
 {
   "message": "Cleanup completed",
@@ -266,6 +295,7 @@ Xóa các tài khoản chưa xác thực (Admin only).
 ---
 
 ### 10. Google Login
+
 Đăng nhập bằng Google (redirect).
 
 **Endpoint:** `GET /auth/google`
@@ -277,6 +307,7 @@ Xóa các tài khoản chưa xác thực (Admin only).
 ---
 
 ### 11. Google Callback
+
 Callback sau khi đăng nhập Google.
 
 **Endpoint:** `GET /auth/google/callback`
@@ -288,6 +319,7 @@ Callback sau khi đăng nhập Google.
 ---
 
 ### 12. Google Token Login
+
 Đăng nhập bằng Google token.
 
 **Endpoint:** `POST /auth/google/token`
@@ -295,6 +327,7 @@ Callback sau khi đăng nhập Google.
 **Authentication:** Public
 
 **Request Body:**
+
 ```json
 {
   "googleId": "google_user_id",
@@ -305,6 +338,7 @@ Callback sau khi đăng nhập Google.
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -315,6 +349,7 @@ Callback sau khi đăng nhập Google.
 ---
 
 ### 13. Refresh Token
+
 Làm mới access token.
 
 **Endpoint:** `POST /auth/refresh`
@@ -324,6 +359,7 @@ Làm mới access token.
 **Rate Limit:** 10 requests/phút
 
 **Request Body:**
+
 ```json
 {
   "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -331,6 +367,7 @@ Làm mới access token.
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "new_access_token",
@@ -341,6 +378,7 @@ Làm mới access token.
 ---
 
 ### 14. Logout
+
 Đăng xuất (revoke refresh token).
 
 **Endpoint:** `POST /auth/logout`
@@ -348,6 +386,7 @@ Làm mới access token.
 **Authentication:** Public
 
 **Request Body:**
+
 ```json
 {
   "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -355,6 +394,7 @@ Làm mới access token.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Logged out successfully"
@@ -364,6 +404,7 @@ Làm mới access token.
 ---
 
 ### 15. Logout All Devices
+
 Đăng xuất khỏi tất cả thiết bị.
 
 **Endpoint:** `POST /auth/logout-all`
@@ -371,6 +412,7 @@ Làm mới access token.
 **Authentication:** Required (Bearer Token)
 
 **Response:**
+
 ```json
 {
   "message": "Logged out from all devices"
@@ -382,6 +424,7 @@ Làm mới access token.
 ## Books
 
 ### 1. Create Book
+
 Tạo sách mới (Admin only).
 
 **Endpoint:** `POST /book/create`
@@ -389,6 +432,7 @@ Tạo sách mới (Admin only).
 **Authentication:** Required (Admin role)
 
 **Request Body:**
+
 ```json
 {
   "title": "Tên sách",
@@ -403,6 +447,7 @@ Tạo sách mới (Admin only).
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -421,6 +466,7 @@ Tạo sách mới (Admin only).
 ---
 
 ### 2. Get All Books
+
 Lấy danh sách tất cả sách.
 
 **Endpoint:** `GET /book`
@@ -430,6 +476,7 @@ Lấy danh sách tất cả sách.
 **Cache:** 10 phút
 
 **Response:**
+
 ```json
 [
   {
@@ -451,6 +498,7 @@ Lấy danh sách tất cả sách.
 ---
 
 ### 3. Get Book By ID
+
 Lấy thông tin chi tiết sách theo ID.
 
 **Endpoint:** `GET /book/id/:id`
@@ -460,9 +508,11 @@ Lấy thông tin chi tiết sách theo ID.
 **Cache:** 10 phút
 
 **Parameters:**
+
 - `id`: Book ID
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -487,6 +537,7 @@ Lấy thông tin chi tiết sách theo ID.
 ---
 
 ### 4. Update Book
+
 Cập nhật thông tin sách (Admin only).
 
 **Endpoint:** `PUT /book/update/:id`
@@ -494,9 +545,11 @@ Cập nhật thông tin sách (Admin only).
 **Authentication:** Required (Admin role)
 
 **Parameters:**
+
 - `id`: Book ID
 
 **Request Body:**
+
 ```json
 {
   "title": "Tên sách mới",
@@ -506,6 +559,7 @@ Cập nhật thông tin sách (Admin only).
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -519,6 +573,7 @@ Cập nhật thông tin sách (Admin only).
 ---
 
 ### 5. Delete Book
+
 Xóa sách (Admin only).
 
 **Endpoint:** `DELETE /book/delete/:id`
@@ -526,9 +581,11 @@ Xóa sách (Admin only).
 **Authentication:** Required (Admin role)
 
 **Parameters:**
+
 - `id`: Book ID
 
 **Response:**
+
 ```json
 {
   "message": "Book deleted successfully"
@@ -538,6 +595,7 @@ Xóa sách (Admin only).
 ---
 
 ### 6. Search Books
+
 Tìm kiếm sách.
 
 **Endpoint:** `GET /book/search`
@@ -545,12 +603,14 @@ Tìm kiếm sách.
 **Authentication:** Public (Optional - để lưu lịch sử tìm kiếm)
 
 **Query Parameters:**
+
 - `keyword`: Từ khóa tìm kiếm (optional)
 - `categoryId`: ID danh mục (optional)
 - `page`: Số trang (default: 1)
 - `limit`: Số lượng/trang (default: 10)
 
 **Response:**
+
 ```json
 {
   "data": [
@@ -574,6 +634,7 @@ Tìm kiếm sách.
 ## Categories
 
 ### 1. Get All Categories
+
 Lấy danh sách tất cả danh mục.
 
 **Endpoint:** `GET /category`
@@ -583,6 +644,7 @@ Lấy danh sách tất cả danh mục.
 **Cache:** 1 hour
 
 **Response:**
+
 ```json
 [
   {
@@ -601,6 +663,7 @@ Lấy danh sách tất cả danh mục.
 ---
 
 ### 2. Get Category By ID
+
 Lấy thông tin danh mục theo ID.
 
 **Endpoint:** `GET /category/:id`
@@ -610,9 +673,11 @@ Lấy thông tin danh mục theo ID.
 **Cache:** 1 hour
 
 **Parameters:**
+
 - `id`: Category ID
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -630,6 +695,7 @@ Lấy thông tin danh mục theo ID.
 ---
 
 ### 3. Create Category
+
 Tạo danh mục mới (Admin/Moderator only).
 
 **Endpoint:** `POST /category`
@@ -637,6 +703,7 @@ Tạo danh mục mới (Admin/Moderator only).
 **Authentication:** Required (Admin/Moderator role)
 
 **Request Body:**
+
 ```json
 {
   "name": "Danh mục mới"
@@ -644,6 +711,7 @@ Tạo danh mục mới (Admin/Moderator only).
 ```
 
 **Response:**
+
 ```json
 {
   "id": 3,
@@ -654,6 +722,7 @@ Tạo danh mục mới (Admin/Moderator only).
 ---
 
 ### 4. Update Category
+
 Cập nhật danh mục (Admin/Moderator only).
 
 **Endpoint:** `PUT /category/:id`
@@ -661,9 +730,11 @@ Cập nhật danh mục (Admin/Moderator only).
 **Authentication:** Required (Admin/Moderator role)
 
 **Parameters:**
+
 - `id`: Category ID
 
 **Request Body:**
+
 ```json
 {
   "name": "Tên danh mục mới"
@@ -671,6 +742,7 @@ Cập nhật danh mục (Admin/Moderator only).
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -681,6 +753,7 @@ Cập nhật danh mục (Admin/Moderator only).
 ---
 
 ### 5. Delete Category
+
 Xóa danh mục (Admin/Moderator only).
 
 **Endpoint:** `DELETE /category/:id`
@@ -688,9 +761,11 @@ Xóa danh mục (Admin/Moderator only).
 **Authentication:** Required (Admin/Moderator role)
 
 **Parameters:**
+
 - `id`: Category ID
 
 **Response:**
+
 ```json
 {
   "message": "Category deleted successfully"
@@ -702,6 +777,7 @@ Xóa danh mục (Admin/Moderator only).
 ## Cloudinary (Upload)
 
 ### 1. Upload Image
+
 Upload ảnh lên Cloudinary.
 
 **Endpoint:** `POST /cloudinary/image`
@@ -711,10 +787,12 @@ Upload ảnh lên Cloudinary.
 **Content-Type:** `multipart/form-data`
 
 **Request Body:**
+
 - `file`: Image file
 - `folder`: Folder name (optional, default: "booknest")
 
 **Response:**
+
 ```json
 {
   "url": "https://res.cloudinary.com/.../image.jpg",
@@ -725,6 +803,7 @@ Upload ảnh lên Cloudinary.
 ---
 
 ### 2. Delete Image
+
 Xóa ảnh từ Cloudinary.
 
 **Endpoint:** `DELETE /cloudinary/image`
@@ -732,6 +811,7 @@ Xóa ảnh từ Cloudinary.
 **Authentication:** Required (Bearer Token)
 
 **Request Body:**
+
 ```json
 {
   "publicId": "booknest/abc123"
@@ -739,6 +819,7 @@ Xóa ảnh từ Cloudinary.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "Image deleted successfully",
@@ -749,6 +830,7 @@ Xóa ảnh từ Cloudinary.
 ---
 
 ### 3. Upload PDF
+
 Upload file PDF lên Cloudinary.
 
 **Endpoint:** `POST /cloudinary/pdf`
@@ -758,10 +840,12 @@ Upload file PDF lên Cloudinary.
 **Content-Type:** `multipart/form-data`
 
 **Request Body:**
+
 - `file`: PDF file
 - `folder`: Folder name (optional, default: "booknest/pdfs")
 
 **Response:**
+
 ```json
 {
   "url": "https://res.cloudinary.com/.../file.pdf",
@@ -774,6 +858,7 @@ Upload file PDF lên Cloudinary.
 ---
 
 ### 4. Delete PDF
+
 Xóa file PDF từ Cloudinary.
 
 **Endpoint:** `DELETE /cloudinary/pdf`
@@ -781,6 +866,7 @@ Xóa file PDF từ Cloudinary.
 **Authentication:** Required (Bearer Token)
 
 **Request Body:**
+
 ```json
 {
   "publicId": "booknest/pdfs/abc123"
@@ -788,6 +874,7 @@ Xóa file PDF từ Cloudinary.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "PDF deleted successfully",
@@ -800,6 +887,7 @@ Xóa file PDF từ Cloudinary.
 ## Ratings
 
 ### 1. Get All Ratings
+
 Lấy tất cả đánh giá.
 
 **Endpoint:** `GET /rating`
@@ -809,6 +897,7 @@ Lấy tất cả đánh giá.
 **Cache:** 5 phút
 
 **Response:**
+
 ```json
 [
   {
@@ -828,6 +917,7 @@ Lấy tất cả đánh giá.
 ---
 
 ### 2. Get Rating By ID
+
 Lấy đánh giá theo ID.
 
 **Endpoint:** `GET /rating/:id`
@@ -837,9 +927,11 @@ Lấy đánh giá theo ID.
 **Cache:** 5 phút
 
 **Parameters:**
+
 - `id`: Rating ID
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -854,6 +946,7 @@ Lấy đánh giá theo ID.
 ---
 
 ### 3. Get Ratings By Book
+
 Lấy tất cả đánh giá của một cuốn sách.
 
 **Endpoint:** `GET /rating/book/:bookId`
@@ -863,9 +956,11 @@ Lấy tất cả đánh giá của một cuốn sách.
 **Cache:** 3 phút
 
 **Parameters:**
+
 - `bookId`: Book ID
 
 **Response:**
+
 ```json
 [
   {
@@ -884,6 +979,7 @@ Lấy tất cả đánh giá của một cuốn sách.
 ---
 
 ### 4. Get Ratings By User
+
 Lấy tất cả đánh giá của một người dùng.
 
 **Endpoint:** `GET /rating/user/:userId`
@@ -893,9 +989,11 @@ Lấy tất cả đánh giá của một người dùng.
 **Cache:** 3 phút
 
 **Parameters:**
+
 - `userId`: User ID
 
 **Response:**
+
 ```json
 [
   {
@@ -914,6 +1012,7 @@ Lấy tất cả đánh giá của một người dùng.
 ---
 
 ### 5. Create Rating
+
 Tạo đánh giá mới.
 
 **Endpoint:** `POST /rating`
@@ -921,6 +1020,7 @@ Tạo đánh giá mới.
 **Authentication:** Required (Bearer Token)
 
 **Request Body:**
+
 ```json
 {
   "bookId": 1,
@@ -930,6 +1030,7 @@ Tạo đánh giá mới.
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -944,6 +1045,7 @@ Tạo đánh giá mới.
 ---
 
 ### 6. Update Rating
+
 Cập nhật đánh giá.
 
 **Endpoint:** `PUT /rating/:id`
@@ -951,9 +1053,11 @@ Cập nhật đánh giá.
 **Authentication:** Required (Bearer Token)
 
 **Parameters:**
+
 - `id`: Rating ID
 
 **Request Body:**
+
 ```json
 {
   "rating": 4,
@@ -962,6 +1066,7 @@ Cập nhật đánh giá.
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -974,6 +1079,7 @@ Cập nhật đánh giá.
 ---
 
 ### 7. Delete Rating
+
 Xóa đánh giá.
 
 **Endpoint:** `DELETE /rating/:id`
@@ -981,9 +1087,11 @@ Xóa đánh giá.
 **Authentication:** Required (Bearer Token)
 
 **Parameters:**
+
 - `id`: Rating ID
 
 **Response:**
+
 ```json
 {
   "message": "Rating deleted successfully"
@@ -995,6 +1103,7 @@ Xóa đánh giá.
 ## Search
 
 ### 1. Get Search History
+
 Lấy lịch sử tìm kiếm của người dùng.
 
 **Endpoint:** `GET /search/history`
@@ -1004,6 +1113,7 @@ Lấy lịch sử tìm kiếm của người dùng.
 **Cache:** 5 phút
 
 **Response:**
+
 ```json
 [
   {
@@ -1018,6 +1128,7 @@ Lấy lịch sử tìm kiếm của người dùng.
 ---
 
 ### 2. Get Search Suggestions
+
 Lấy gợi ý tìm kiếm.
 
 **Endpoint:** `GET /search/suggestions?q={keyword}`
@@ -1027,20 +1138,19 @@ Lấy gợi ý tìm kiếm.
 **Cache:** 10 phút
 
 **Query Parameters:**
+
 - `q`: Từ khóa tìm kiếm
 
 **Response:**
+
 ```json
-[
-  "văn học việt nam",
-  "văn học nước ngoài",
-  "văn học hiện đại"
-]
+["văn học việt nam", "văn học nước ngoài", "văn học hiện đại"]
 ```
 
 ---
 
 ### 3. Get Trending Searches
+
 Lấy các từ khóa tìm kiếm phổ biến.
 
 **Endpoint:** `GET /search/trending`
@@ -1050,6 +1160,7 @@ Lấy các từ khóa tìm kiếm phổ biến.
 **Cache:** 30 phút
 
 **Response:**
+
 ```json
 [
   {
@@ -1066,6 +1177,7 @@ Lấy các từ khóa tìm kiếm phổ biến.
 ---
 
 ### 4. Clear Search History
+
 Xóa toàn bộ lịch sử tìm kiếm.
 
 **Endpoint:** `POST /search/clear-history`
@@ -1073,6 +1185,7 @@ Xóa toàn bộ lịch sử tìm kiếm.
 **Authentication:** Required (Bearer Token)
 
 **Response:**
+
 ```json
 {
   "message": "Search history cleared"
@@ -1082,6 +1195,7 @@ Xóa toàn bộ lịch sử tìm kiếm.
 ---
 
 ### 5. Delete Search Item
+
 Xóa một mục trong lịch sử tìm kiếm.
 
 **Endpoint:** `DELETE /search/history/:id`
@@ -1089,9 +1203,11 @@ Xóa một mục trong lịch sử tìm kiếm.
 **Authentication:** Required (Bearer Token)
 
 **Parameters:**
+
 - `id`: Search history ID
 
 **Response:**
+
 ```json
 {
   "message": "Search item deleted"
@@ -1103,6 +1219,7 @@ Xóa một mục trong lịch sử tìm kiếm.
 ## Supabase (PDF Storage)
 
 ### 1. Upload PDF
+
 Upload file PDF lên Supabase Storage.
 
 **Endpoint:** `POST /supabase/pdf`
@@ -1112,10 +1229,12 @@ Upload file PDF lên Supabase Storage.
 **Content-Type:** `multipart/form-data`
 
 **Request Body:**
+
 - `file`: PDF file
 - `folder`: Folder name (optional)
 
 **Response:**
+
 ```json
 {
   "url": "https://supabase.co/storage/.../file.pdf",
@@ -1126,6 +1245,7 @@ Upload file PDF lên Supabase Storage.
 ---
 
 ### 2. Delete PDF
+
 Xóa file PDF từ Supabase Storage.
 
 **Endpoint:** `DELETE /supabase/pdf`
@@ -1133,6 +1253,7 @@ Xóa file PDF từ Supabase Storage.
 **Authentication:** Required (Bearer Token)
 
 **Request Body:**
+
 ```json
 {
   "path": "pdfs/abc123.pdf"
@@ -1140,6 +1261,7 @@ Xóa file PDF từ Supabase Storage.
 ```
 
 **Response:**
+
 ```json
 {
   "message": "PDF deleted successfully"
@@ -1151,6 +1273,7 @@ Xóa file PDF từ Supabase Storage.
 ## Users
 
 ### 1. Get All Users
+
 Lấy danh sách tất cả người dùng (Admin only).
 
 **Endpoint:** `GET /user`
@@ -1160,6 +1283,7 @@ Lấy danh sách tất cả người dùng (Admin only).
 **Cache:** 1 hour
 
 **Response:**
+
 ```json
 [
   {
@@ -1176,6 +1300,7 @@ Lấy danh sách tất cả người dùng (Admin only).
 ---
 
 ### 2. Get User By ID
+
 Lấy thông tin người dùng theo ID (Admin only).
 
 **Endpoint:** `GET /user/id/:id`
@@ -1185,9 +1310,11 @@ Lấy thông tin người dùng theo ID (Admin only).
 **Cache:** 1 hour
 
 **Parameters:**
+
 - `id`: User ID
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -1203,6 +1330,7 @@ Lấy thông tin người dùng theo ID (Admin only).
 ---
 
 ### 3. Create User
+
 Tạo người dùng mới (Admin only).
 
 **Endpoint:** `POST /user/create`
@@ -1210,6 +1338,7 @@ Tạo người dùng mới (Admin only).
 **Authentication:** Required (Admin role)
 
 **Request Body:**
+
 ```json
 {
   "email": "newuser@example.com",
@@ -1220,6 +1349,7 @@ Tạo người dùng mới (Admin only).
 ```
 
 **Response:**
+
 ```json
 {
   "id": 2,
@@ -1232,6 +1362,7 @@ Tạo người dùng mới (Admin only).
 ---
 
 ### 4. Update User
+
 Cập nhật thông tin người dùng (Admin only).
 
 **Endpoint:** `PUT /user/update/:id`
@@ -1239,9 +1370,11 @@ Cập nhật thông tin người dùng (Admin only).
 **Authentication:** Required (Admin role)
 
 **Parameters:**
+
 - `id`: User ID
 
 **Request Body:**
+
 ```json
 {
   "fullName": "Nguyễn Văn C",
@@ -1250,6 +1383,7 @@ Cập nhật thông tin người dùng (Admin only).
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -1262,6 +1396,7 @@ Cập nhật thông tin người dùng (Admin only).
 ---
 
 ### 5. Delete User
+
 Xóa người dùng (Admin only).
 
 **Endpoint:** `DELETE /user/remove/:id`
@@ -1269,9 +1404,11 @@ Xóa người dùng (Admin only).
 **Authentication:** Required (Admin role)
 
 **Parameters:**
+
 - `id`: User ID
 
 **Response:**
+
 ```json
 {
   "message": "User deleted successfully"
@@ -1281,6 +1418,7 @@ Xóa người dùng (Admin only).
 ---
 
 ### 6. Add Favorite Book
+
 Thêm sách vào danh sách yêu thích.
 
 **Endpoint:** `POST /user/favorite/add/:bookId`
@@ -1288,9 +1426,11 @@ Thêm sách vào danh sách yêu thích.
 **Authentication:** Required (Bearer Token)
 
 **Parameters:**
+
 - `bookId`: Book ID
 
 **Response:**
+
 ```json
 {
   "message": "Book added to favorites"
@@ -1300,6 +1440,7 @@ Thêm sách vào danh sách yêu thích.
 ---
 
 ### 7. Remove Favorite Book
+
 Xóa sách khỏi danh sách yêu thích.
 
 **Endpoint:** `DELETE /user/favorite/remove/:bookId`
@@ -1307,9 +1448,11 @@ Xóa sách khỏi danh sách yêu thích.
 **Authentication:** Required (Bearer Token)
 
 **Parameters:**
+
 - `bookId`: Book ID
 
 **Response:**
+
 ```json
 {
   "message": "Book removed from favorites"
@@ -1319,6 +1462,7 @@ Xóa sách khỏi danh sách yêu thích.
 ---
 
 ### 8. Get Favorite Books
+
 Lấy danh sách sách yêu thích.
 
 **Endpoint:** `GET /user/favoriteBoks`
@@ -1328,6 +1472,7 @@ Lấy danh sách sách yêu thích.
 **Cache:** 2 phút
 
 **Response:**
+
 ```json
 [
   {
@@ -1343,6 +1488,7 @@ Lấy danh sách sách yêu thích.
 ---
 
 ### 9. Search Users
+
 Tìm kiếm người dùng (Admin only).
 
 **Endpoint:** `GET /user/search`
@@ -1350,12 +1496,14 @@ Tìm kiếm người dùng (Admin only).
 **Authentication:** Required (Admin role)
 
 **Query Parameters:**
+
 - `keyword`: Từ khóa tìm kiếm (optional)
 - `role`: Vai trò (USER/ADMIN/MODERATOR) (optional)
 - `page`: Số trang (default: 1)
 - `limit`: Số lượng/trang (default: 10)
 
 **Response:**
+
 ```json
 {
   "data": [
@@ -1386,6 +1534,7 @@ Authorization: Bearer {access_token}
 ## 📝 Response Format
 
 ### Success Response
+
 ```json
 {
   "data": {...},
@@ -1394,6 +1543,7 @@ Authorization: Bearer {access_token}
 ```
 
 ### Error Response
+
 ```json
 {
   "statusCode": 400,
@@ -1411,6 +1561,7 @@ Authorization: Bearer {access_token}
 ## ⚡ Rate Limiting
 
 Một số endpoint có giới hạn số lượng request:
+
 - Register: 3 requests/phút
 - Login: 5 requests/phút
 - Forgot Password: 3 requests/5 phút
@@ -1423,6 +1574,7 @@ Một số endpoint có giới hạn số lượng request:
 ## 💾 Caching
 
 Nhiều endpoint sử dụng Redis cache để tối ưu hiệu suất:
+
 - Categories: 1 hour
 - Books: 10 phút
 - Ratings: 3-5 phút
@@ -1431,7 +1583,8 @@ Nhiều endpoint sử dụng Redis cache để tối ưu hiệu suất:
 
 ---
 
-**Lưu ý:** 
+**Lưu ý:**
+
 - Tất cả các endpoint trả về JSON
 - Timestamps theo format ISO 8601
 - Pagination sử dụng `page` và `limit` query parameters
