@@ -42,18 +42,18 @@ export default function HeroSection() {
         {/* Hero Image */}
         <div style={styles.imageSection} className="hero-image-section">
           <img 
-            src="/src/assets/images/hero-girl-1.png" 
+            src="/images/hero-girl-1.png" 
             alt="Reading Girl" 
             style={styles.heroImage}
           />
           <img 
-            src="/src/assets/images/book-2.png" 
+            src="/images/book-2.png" 
             alt="Book" 
             style={styles.floatingBook}
             className="hero-floating-book"
           />
           <img 
-            src="/src/assets/images/book-shape.png" 
+            src="/images/book-shape.png" 
             alt="Book" 
             style={styles.floatingBookBottom}
             className="hero-floating-book-bottom"
