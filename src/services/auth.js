@@ -63,12 +63,3 @@ export const changePassword = (data) => {
 export const verifyEmailByLink = (verifyLink) => {
   return apiClient.get(verifyLink);
 };
-
-/**
- * Logout (clear tokens)
- */
-export const logout = () => {
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("refresh_token");
-  localStorage.removeItem("user");
-};

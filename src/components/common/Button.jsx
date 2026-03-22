@@ -1,10 +1,44 @@
-export default function Button(props) {
+export default function Button({ 
+  text, 
+  onClick, 
+  variant = 'primary', 
+  icon,
+  className = '' 
+}) {
+  const baseStyle = {
+    padding: '12px 28px',
+    fontSize: '16px',
+    fontWeight: '500',
+    borderRadius: '8px',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    transition: 'all 0.3s ease'
+  };
+
+  const variants = {
+    primary: {
+      backgroundColor: '#fff',
+      color: '#1a1a2e',
+      border: '2px solid #fff'
+    },
+    secondary: {
+      backgroundColor: '#ff6b6b',
+      color: '#fff',
+      border: '2px solid #ff6b6b'
+    }
+  };
+
   return (
     <button
-      onClick={props.onClick}
-      style={{ padding: "10px 20px", fontSize: "16px" }}
+      onClick={onClick}
+      className={className}
+      style={{ ...baseStyle, ...variants[variant] }}
     >
-      {props.text}
+      {text}
+      {icon && <span>{icon}</span>}
     </button>
   );
 }

@@ -1,12 +1,11 @@
-import { useAuth } from "../../hooks/useAuth";
+import Header from '../../components/layout/Header';
+import HeroSection from './components/HeroSection';
 
 export default function Home() {
-  const { logout } = useAuth();
   return (
     <div>
-      <h1>Home Page</h1>
-      <p>Welcome to the BookNest E-Book Platform!</p>
-      <button onClick={logout}>Logout</button>
+      <Header />
+      <HeroSection />
     </div>
   );
 }

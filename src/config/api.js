@@ -6,7 +6,7 @@ export const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // Enable CORS credentials
+  withCredentials: true,
 });
 
 // Add request interceptor to attach token
@@ -28,10 +28,14 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid - clear storage and redirect to login
+      // Token expired or invalid
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      window.location.href = "/login";
+      
+      // Only redirect if not already on login page
+      if (!window.location.pathname.includes('/login')) {
+        window.location.href = "/login";
+      }
     }
     return Promise.reject(error);
   },

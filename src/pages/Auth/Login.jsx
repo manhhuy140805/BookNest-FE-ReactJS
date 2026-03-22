@@ -13,6 +13,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
+  // Handle Google OAuth callback
   useEffect(() => {
     const { access_token, refresh_token } = authService.extractTokensFromUrl(
       window.location.search,
@@ -25,24 +26,13 @@ const Login = () => {
     const completeGoogleLogin = async () => {
       setGoogleLoading(true);
       try {
-        localStorage.setItem("access_token", access_token);
-        if (refresh_token) {
-          localStorage.setItem("refresh_token", refresh_token);
-        }
-
-        const meResponse = await authService.getCurrentUser();
-        login(meResponse.data, { access_token, refresh_token });
-
+        await login({ access_token, refresh_token });
         message.success("Google login successful!");
-        window.history.replaceState(
-          {},
-          document.title,
-          window.location.pathname,
-        );
+        
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
         navigate("/");
       } catch (error) {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
         const errorMessage =
           error.response?.data?.message ||
           error.message ||
@@ -59,21 +49,19 @@ const Login = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
+      // Call login API
       const response = await authService.login({
         email: values.email,
         password: values.password,
       });
-      const { access_token, refresh_token, user } = response.data;
 
-      // Save to auth context and localStorage
-      login(user, { access_token, refresh_token });
+      const { access_token, refresh_token } = response.data;
+
+      // Login with tokens
+      await login({ access_token, refresh_token });
 
       message.success("Login successful!");
-
-      // Redirect to home
-      setTimeout(() => {
-        navigate("/");
-      }, 500);
+      navigate("/");
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || error.message || "Login failed";
@@ -98,10 +86,7 @@ const Login = () => {
         overflow: "hidden",
       }}
     >
-      {/* Left Side - Banner */}
       <LoginBanner />
-
-      {/* Right Side - Form */}
       <LoginForm
         onFinish={onFinish}
         loading={loading}
@@ -109,14 +94,13 @@ const Login = () => {
         googleLoading={googleLoading}
       />
 
-      {/* CSS Inline for responsive hide */}
       <style>{`
-                @media (max-width: 768px) {
-                    .hidden-mobile {
-                        display: none !important;
-                    }
-                }
-            `}</style>
+        @media (max-width: 768px) {
+          .hidden-mobile {
+            display: none !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
