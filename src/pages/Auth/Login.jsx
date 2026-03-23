@@ -13,7 +13,6 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
-  // Handle Google OAuth callback
   useEffect(() => {
     const { access_token, refresh_token } = authService.extractTokensFromUrl(
       window.location.search,
@@ -29,7 +28,6 @@ const Login = () => {
         await login({ access_token, refresh_token });
         message.success("Google login successful!");
         
-        // Clean URL
         window.history.replaceState({}, document.title, window.location.pathname);
         navigate("/");
       } catch (error) {
@@ -49,15 +47,12 @@ const Login = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // Call login API
       const response = await authService.login({
         email: values.email,
         password: values.password,
       });
 
       const { access_token, refresh_token } = response.data;
-
-      // Login with tokens
       await login({ access_token, refresh_token });
 
       message.success("Login successful!");
@@ -77,15 +72,7 @@ const Login = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "100vh",
-        width: "100vw",
-        backgroundColor: "#f8f9fa",
-        overflow: "hidden",
-      }}
-    >
+    <div style={styles.container}>
       <LoginBanner />
       <LoginForm
         onFinish={onFinish}
@@ -103,6 +90,15 @@ const Login = () => {
       `}</style>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: "flex",
+    minHeight: "100vh",
+    width: "100vw",
+    backgroundColor: "#f8f9fa"
+  }
 };
 
 export default Login;
