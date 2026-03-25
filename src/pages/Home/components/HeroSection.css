@@ -1,0 +1,249 @@
+.hero-section {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 50%, #c94b4b 100%);
+  min-height: clamp(500px, 68vh, 720px);
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(40px, 6vh, 80px);
+}
+
+.hero-container {
+  width: min(
+    var(--layout-max-width),
+    calc(100% - (var(--layout-side-padding) * 2))
+  );
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 60px);
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  flex: 1;
+  max-width: min(550px, 100%);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  animation: fadeInRight 0.8s ease-out;
+}
+
+.hero-badge-text {
+  color: #ff6b6b;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.hero-badge-discount {
+  background-color: #fff;
+  color: #1a1a2e;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.hero-heading {
+  font-size: clamp(2rem, 4.8vw, 3.5rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: clamp(18px, 2.4vw, 24px);
+  animation: fadeInRight 0.8s ease-out 0.2s backwards;
+}
+
+.hero-highlight {
+  color: #ff6b6b;
+}
+
+.hero-description {
+  color: #e0e0e0;
+  font-size: clamp(0.95rem, 1.1vw, 1rem);
+  line-height: 1.6;
+  margin-bottom: clamp(20px, 2.8vw, 32px);
+  animation: fadeInRight 0.8s ease-out 0.4s backwards;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: clamp(10px, 1.6vw, 16px);
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
+  animation: fadeInUp 0.8s ease-out 0.6s backwards;
+}
+
+.hero-image-section {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: clamp(300px, 40vw, 420px);
+  animation: fadeInLeft 1s ease-out 0.3s backwards;
+}
+
+.hero-image {
+  max-width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-floating-book {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: clamp(96px, 12vw, 150px);
+  height: auto;
+  animation:
+    float 3s ease-in-out infinite,
+    scaleIn 0.8s ease-out 0.8s backwards;
+}
+
+.hero-floating-book-bottom {
+  position: absolute;
+  bottom: -5%;
+  left: -65%;
+  width: clamp(180px, 34vw, 500px);
+  height: auto;
+  transform: rotate(-15deg);
+  z-index: 0;
+  animation:
+    float 3s ease-in-out infinite 1.5s,
+    scaleIn 0.8s ease-out 1s backwards;
+}
+
+.hero-decorative-shape {
+  position: absolute;
+  bottom: -50px;
+  left: -100px;
+  width: clamp(220px, 28vw, 400px);
+  height: clamp(220px, 28vw, 400px);
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-container {
+    flex-direction: column;
+    gap: 40px;
+    padding-top: 60px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .hero-heading {
+    font-size: 42px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-image-section {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: auto;
+    padding-top: 40px;
+  }
+
+  .hero-heading {
+    font-size: 32px;
+  }
+
+  .hero-description {
+    font-size: 14px;
+  }
+
+  .hero-floating-book {
+    width: 100px;
+  }
+
+  .hero-floating-book-bottom {
+    width: 140px;
+    left: -20%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-heading {
+    font-size: 28px;
+  }
+
+  .hero-badge {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
