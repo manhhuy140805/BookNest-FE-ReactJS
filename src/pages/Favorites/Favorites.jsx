@@ -14,7 +14,7 @@ import {
 } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import Header from "../../components/layout/Header";
-import BookCard from "../../components/common/BookCard/BookCard";
+import BookCard from "../../components/common/bookCard/BookCard";
 import * as favoritesService from "../../services/favorites";
 import styles from "./Favorites.module.css";
 
