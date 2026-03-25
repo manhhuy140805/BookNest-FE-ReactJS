@@ -1,124 +1,240 @@
-# WBS phân chia task FE cho 3 thành viên
+# WBS FE TOAN BO PROJECT BOOKNEST (DUA TREN API)
 
-## 1) Mục tiêu và nguyên tắc chia việc
+## 1) Muc tieu
 
-- Mục tiêu: chia task theo WBS, có 1 file lớn + 3 file nhỏ, khối lượng giữa 3 thành viên tương đối cân bằng.
-- File lớn dùng để chia theo module bên trong (không để 1 người ôm hết).
-- Mỗi thành viên nhận 1 file nhỏ riêng + 1 phần trong file lớn.
-- Ưu tiên tách rõ deliverable, tiêu chí nghiệm thu, dependency.
+- Lap danh sach day du giao dien va chuc nang FE can lam cho toan bo project.
+- Bám theo API hien co trong DOC/API_ENDPOINTS.md de tranh thieu scope.
+- Lam co so de tach backlog, phan sprint, va phan cong thanh vien.
 
-## 2) Các file trong phạm vi WBS
+## 2) Pham vi tong quan theo module
 
-- File lớn: src/components/layout/Header.jsx
-- File nhỏ 1: src/pages/Auth/components/LoginForm.jsx
-- File nhỏ 2: src/pages/Auth/components/RegisterForm.jsx
-- File nhỏ 3: src/pages/Home/components/HeroSection.jsx
+- Authentication: dang ky, dang nhap, google login, xac thuc email, quen/reset mat khau, logout.
+- Books: danh sach sach, chi tiet sach, tim kiem sach, CRUD sach (admin).
+- Categories: danh sach, chi tiet, CRUD danh muc (admin/moderator).
+- Ratings: danh sach, tao/sua/xoa danh gia, loc theo sach/nguoi dung.
+- Search: lich su tim kiem, goi y tim kiem, trending, xoa lich su.
+- Upload: upload/delete image va PDF (Cloudinary/Supabase).
+- Users: profile co ban, quan ly user (admin), yeu thich sach.
 
-## 3) WBS (Level 1 -> Level 3)
+## 3) Danh sach giao dien can co (UI Inventory)
 
-### 1.0 FE UI Refactor và hoàn thiện luồng cơ bản
+### 3.1 Public pages
 
-### 1.1 Header module (file lớn: Header.jsx)
+- Trang chu
+- Trang login
+- Trang register
+- Trang verify email result
+- Trang forgot password
+- Trang reset password
+- Trang callback Google auth
+- Trang danh sach sach
+- Trang chi tiet sach
+- Trang tim kiem sach
+- Trang danh sach category
+- Trang chi tiet category
 
-- 1.1.1 Tách phần navigation + route mapping
-- 1.1.2 Hoàn thiện search UI action (chỉ UI/UX, chưa cần kết nối API search)
-- 1.1.3 Hoàn thiện user menu và mobile drawer (trạng thái đăng nhập/chưa đăng nhập)
+### 3.2 Authenticated user pages
 
-### 1.2 Auth login UI (file nhỏ: LoginForm.jsx)
+- Trang profile user
+- Trang doi mat khau
+- Trang danh sach yeu thich
+- Trang lich su tim kiem
+- Trang quan ly danh gia cua toi
 
-- 1.2.1 Chuẩn hóa validation và message text
-- 1.2.2 Tinh chỉnh responsive và khoảng cách
-- 1.2.3 Chuẩn hóa trạng thái loading cho login/google
+### 3.3 Admin/Moderator pages
 
-### 1.3 Auth register UI (file nhỏ: RegisterForm.jsx)
+- Trang dashboard quan tri (tong quan)
+- Trang quan ly sach (list/create/edit/delete)
+- Trang quan ly category (list/create/edit/delete)
+- Trang quan ly user (list/detail/create/edit/delete/search)
+- Trang cleanup unverified users
+- Trang upload media manager (image/pdf)
 
-- 1.3.1 Chuẩn hóa validation (fullName, password, confirmPassword, agree)
-- 1.3.2 Đồng bộ style với LoginForm
-- 1.3.3 Tối ưu UX nút submit và trạng thái loading
+## 4) WBS chi tiet theo module
 
-### 1.4 Home hero UI (file nhỏ: HeroSection.jsx)
+### 1.0 Foundation & App Architecture
 
-- 1.4.1 Tối ưu animation và responsive
-- 1.4.2 Chuẩn hóa copy text và call-to-action
-- 1.4.3 Tối ưu style inline để dễ maintain
+- 1.1 App routing (public/private/admin route guard)
+- 1.2 Auth context + token lifecycle (access/refresh)
+- 1.3 Shared layout (Header/Footer/Main container)
+- 1.4 Shared UI components (Button, Input, Modal, Table, Empty, Pagination)
+- 1.5 API client setup (interceptor, error normalize, toast messaging)
 
-### 1.5 Integration + QA
+### 2.0 Authentication Module
 
-- 1.5.1 Kiểm thử route chính: /, /login, /register
-- 1.5.2 Kiểm thử trạng thái user menu theo auth state
-- 1.5.3 Smoke test trên mobile viewport
+- 2.1 Register UI + validate form
+- 2.2 Login UI + remember me + error handling
+- 2.3 Google login flow (/auth/google, /auth/callback)
+- 2.4 Verify email page (/auth/verify-email)
+- 2.5 Resend verification UI
+- 2.6 Forgot password UI
+- 2.7 Reset password UI
+- 2.8 Me endpoint bootstrap user session (/auth/me)
+- 2.9 Logout + logout all devices
 
-## 4) Phân công cho 3 thành viên (cân bằng effort)
+### 3.0 Books Module
 
-### Thành viên A - Huy (UI Navigation lead)
+- 3.1 Book list page (GET /book)
+- 3.2 Book detail page (GET /book/id/:id)
+- 3.3 Book search page (GET /book/search)
+- 3.4 Book filter + pagination + sort (FE state)
+- 3.5 Admin create book (POST /book/create)
+- 3.6 Admin update book (PUT /book/update/:id)
+- 3.7 Admin delete book (DELETE /book/delete/:id)
 
-- File nhỏ chính: src/pages/Home/components/HeroSection.jsx
-- Phần file lớn: Header.jsx - phần navigation + menu desktop/mobile (WBS 1.1.1)
-- Công việc cụ thể:
-  - Chuẩn hóa nav items, active style, và hành vi đóng drawer khi click link.
-  - Giảm trùng lặp JSX desktop/mobile nếu có thể.
-  - Chỉnh HeroSection để đồng bộ spacing với Header.
-- Ước lượng: 7 points
-- File đặc tả chi tiết: Plan/Huy_Task_Spec.md
+### 4.0 Categories Module
 
-### Thành viên B - Han (Auth login lead)
+- 4.1 Category list page (GET /category)
+- 4.2 Category detail page (GET /category/:id)
+- 4.3 Category create (POST /category)
+- 4.4 Category update (PUT /category/:id)
+- 4.5 Category delete (DELETE /category/:id)
 
-- File nhỏ chính: src/pages/Auth/components/LoginForm.jsx
-- Phần file lớn: Header.jsx - phần search box và icon action (WBS 1.1.2)
-- Công việc cụ thể:
-  - Chuẩn hóa validation text, states loading, disabled.
-  - Hoàn thiện UI search input (focus, clear, icon click).
-  - Đảm bảo responsive: ẩn/hiện đúng breakpoints.
-- Ước lượng: 7 points
-- File đặc tả chi tiết: Plan/Han_Task_Spec.md
+### 5.0 Ratings Module
 
-### Thành viên C - Oanh (Auth register lead)
+- 5.1 Ratings list (GET /rating)
+- 5.2 Rating detail (GET /rating/:id)
+- 5.3 Ratings by book (GET /rating/book/:bookId)
+- 5.4 Ratings by user (GET /rating/user/:userId)
+- 5.5 Create rating (POST /rating)
+- 5.6 Update rating (PUT /rating/:id)
+- 5.7 Delete rating (DELETE /rating/:id)
 
-- File nhỏ chính: src/pages/Auth/components/RegisterForm.jsx
-- Phần file lớn: Header.jsx - phần user profile dropdown + logout flow UI (WBS 1.1.3)
-- Công việc cụ thể:
-  - Chuẩn hóa rules RegisterForm và thông điệp lỗi.
-  - Đồng bộ màu/nút với LoginForm.
-  - Xử lý user avatar fallback, user name truncation, menu action rõ ràng.
-- Ước lượng: 8 points
-- File đặc tả chi tiết: Plan/Oanh_Task_Spec.md
+### 6.0 Search Module
 
-## 5) Definition of Done cho mỗi task
+- 6.1 Search history UI (GET /search/history)
+- 6.2 Search suggestions autocomplete (GET /search/suggestions)
+- 6.3 Trending keywords section (GET /search/trending)
+- 6.4 Clear all history (POST /search/clear-history)
+- 6.5 Delete one history item (DELETE /search/history/:id)
 
-- Code pass eslint (không tạo warning mới nghiêm trọng).
-- Không làm vỡ route hiện tại trong AppRouter.
-- Test tay desktop + mobile (375px, 768px, >= 1024px).
-- UI không vỡ bố cục khi login/logout.
-- PR có screenshot trước/sau cho màn hình chính liên quan.
+### 7.0 Favorites & User Module
 
-## 6) Dependency và thứ tự triển khai
+- 7.1 Favorite list page (GET /user/favoriteBoks)
+- 7.2 Add favorite action (POST /user/favorite/add/:bookId)
+- 7.3 Remove favorite action (DELETE /user/favorite/remove/:bookId)
+- 7.4 User profile detail for admin (GET /user/id/:id)
+- 7.5 User search for admin (GET /user/search)
 
-1. A/B/C cùng khởi động trên nhánh riêng.
-2. A merge phần nav trước (có ảnh hưởng layout tổng).
-3. B và C rebase sau khi Header nav merge.
-4. Merge Hero/Login/Register.
-5. Chạy QA tổng (WBS 1.5) trước khi chốt sprint.
+### 8.0 Admin User Management Module
 
-## 7) Kế hoạch 5 ngày gợi ý
+- 8.1 User list page (GET /user)
+- 8.2 Create user (POST /user/create)
+- 8.3 Update user (PUT /user/update/:id)
+- 8.4 Delete user (DELETE /user/remove/:id)
+- 8.5 Cleanup unverified users (POST /auth/cleanup-unverified)
 
-- Day 1: Chốt scope, chia branch, setup coding convention.
-- Day 2-3: Làm task theo phân công chính.
-- Day 4: Review chéo giữa 3 thành viên + fix.
-- Day 5: Integration QA, polish UI, chốt PR.
+### 9.0 Media Upload Module
 
-## 8) Mẫu branch và ticket để bạn quản lý dễ hơn
+- 9.1 Upload image UI (POST /cloudinary/image)
+- 9.2 Delete image action (DELETE /cloudinary/image)
+- 9.3 Upload PDF via cloudinary (POST /cloudinary/pdf)
+- 9.4 Delete PDF via cloudinary (DELETE /cloudinary/pdf)
+- 9.5 Upload PDF via supabase (POST /supabase/pdf)
+- 9.6 Delete PDF via supabase (DELETE /supabase/pdf)
+- 9.7 Media picker component cho admin form
 
-- Branch:
-  - feat/header-nav-hero-a
-  - feat/header-search-login-b
-  - feat/header-user-register-c
-- Ticket IDs:
-  - FE-WBS-01 (A)
-  - FE-WBS-02 (B)
-  - FE-WBS-03 (C)
+### 10.0 Security, Role & Guard
 
-## 9) Danh sách file task theo thành viên
+- 10.1 UI guard cho role USER/MODERATOR/ADMIN
+- 10.2 Route-level permission guard
+- 10.3 Button-level permission hide/disable
+- 10.4 Session expiry handling + redirect
 
-- Plan/Huy_Task_Spec.md
-- Plan/Han_Task_Spec.md
-- Plan/Oanh_Task_Spec.md
+### 11.0 Observability & Error UX
+
+- 11.1 Trang 401/403/404/500
+- 11.2 Toast + inline error standard
+- 11.3 Loading skeleton/shimmer cho page chinh
+- 11.4 Empty state cho list, search, favorite, rating
+
+### 12.0 QA & Release Readiness
+
+- 12.1 Smoke test full flow auth
+- 12.2 Smoke test full flow book browsing + rating + favorite
+- 12.3 Smoke test admin CRUD (book/category/user)
+- 12.4 Responsive test 375/768/1024/1366
+- 12.5 Regression checklist truoc release
+
+## 5) Mapping API -> Giao dien/Chuc nang FE
+
+### 5.1 Auth API mapping
+
+- /auth/register -> Register page + validation + success state
+- /auth/login -> Login page + token store + redirect
+- /auth/me -> Init auth state khi load app
+- /auth/change-password -> Change password modal/page
+- /auth/verify-email -> Verify email result page
+- /auth/resend-verification -> Resend verification action
+- /auth/forgot-password -> Forgot password page
+- /auth/reset-password -> Reset password page
+- /auth/google + /auth/google/callback + /auth/google/token -> Google OAuth flow
+- /auth/refresh -> token refresh background
+- /auth/logout + /auth/logout-all -> logout actions
+
+### 5.2 Book API mapping
+
+- /book -> Book list page
+- /book/id/:id -> Book detail page
+- /book/search -> Search result page
+- /book/create|update|delete -> Admin book management pages
+
+### 5.3 Category API mapping
+
+- /category + /category/:id -> Category list/detail pages
+- POST/PUT/DELETE /category -> Admin/Moderator category management
+
+### 5.4 Rating API mapping
+
+- /rating, /rating/:id, /rating/book/:bookId, /rating/user/:userId -> Rating list/detail widgets
+- POST/PUT/DELETE /rating -> Rating CRUD actions
+
+### 5.5 Search API mapping
+
+- /search/history -> Search history panel
+- /search/suggestions -> Autocomplete dropdown
+- /search/trending -> Trending widget
+- /search/clear-history, /search/history/:id -> History management actions
+
+### 5.6 User/Favorite API mapping
+
+- /user/favoriteBoks -> Favorite page
+- /user/favorite/add/:bookId + /remove/:bookId -> Favorite CTA in book cards/detail
+- /user + /user/id/:id + /user/create + /user/update/:id + /user/remove/:id + /user/search -> Admin user pages
+
+### 5.7 Upload API mapping
+
+- /cloudinary/image, /cloudinary/pdf, /supabase/pdf + delete endpoints -> Upload manager va file selector
+
+## 6) Backlog uu tien (de lam sprint)
+
+- P0 (bat buoc): Foundation, Auth core, Book list/detail/search, Category list, Rating create/view, Favorite, Route guard.
+- P1 (quan trong): Forgot/reset/verify flow day du, Search module day du, Admin book/category CRUD.
+- P2 (mo rong): Admin user CRUD/search, media manager hoan chinh, trending/search analytics UX.
+
+## 7) Definition of Done cho moi task
+
+- Dung endpoint va contract API da mo ta trong DOC/API_ENDPOINTS.md.
+- Co loading/error/empty state cho man hinh chinh.
+- Co role guard neu chuc nang yeu cau phan quyen.
+- Test tay desktop + mobile, khong vo bo cuc.
+- PR co checklist test va screenshot before/after.
+
+## 8) Ke hoach phan cong 3 thanh vien (chot)
+
+- Huy - Luong 1 (Auth + Guard + App Foundation): WBS 1.0, 2.0, 10.0, 11.0 (phan dung chung) | SP de xuat: 35 | Ticket: FE-STREAM-01
+- Han - Luong 2 (Catalog + Search): WBS 3.0, 4.0, 6.0 | SP de xuat: 31 | Ticket: FE-STREAM-02
+- Oanh - Luong 3 (User + Admin + Upload): WBS 5.0, 7.0, 8.0, 9.0, 11.0 (phan user-admin feedback) | SP de xuat: 32 | Ticket: FE-STREAM-03
+
+## 9) Dau ra mong doi sau giai doan planning
+
+- Danh sach man hinh can tao moi.
+- Danh sach endpoint da map vao man hinh/chuc nang.
+- Backlog chia theo sprint P0/P1/P2.
+- Danh sach dependency giua module de xep thu tu implement.
+
+## 10) File task chi tiet theo thanh vien
+
+- DOC/Plan/Huy_Task_Spec.md
+- DOC/Plan/Han_Task_Spec.md
+- DOC/Plan/Oanh_Task_Spec.md

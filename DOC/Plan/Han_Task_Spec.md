@@ -1,82 +1,115 @@
-# Đặc tả Task - Han (Login + Header Search)
+# Đặc tả Task - Han (Luồng 2: Catalog + Search)
 
 ## 1) Thông tin chung
 
 - Thành viên: Han
-- WBS chính: 1.1.2 + 1.2.x
-- Story point: 7
-- Branch đề xuất: feat/header-search-login-han
-- Ticket đề xuất: FE-WBS-02
+- Luồng phụ trách: Catalog + Search
+- WBS chính: 3.0, 4.0, 6.0
+- Story point đề xuất: 31
+- Branch đề xuất: feat/catalog-search-han
+- Ticket đề xuất: FE-STREAM-02
 
-## 2) Phạm vi file được sửa
+## 2) Mục tiêu công việc
 
-- src/components/layout/Header.jsx
-- src/pages/Auth/components/LoginForm.jsx
-- (Nếu cần) src/pages/Auth/Login.jsx
+- Hoàn thiện toàn bộ trải nghiệm duyệt sách, chi tiết sách, tìm kiếm và danh mục.
+- Kết nối đầy đủ Search module: history, suggestions, trending.
+- Xây nền cho admin book/category CRUD để Oanh có thể cắm quyền admin hoàn chỉnh.
 
-## 3) Mục tiêu công việc
+## 3) Màn hình/chức năng phải hoàn thành
 
-- Hoàn thiện UX phần Search trong Header (chỉ UI/interaction).
-- Chuẩn hóa LoginForm: validation text, loading state, disabled state.
-- Đảm bảo responsive và không vỡ bố cục trên mobile.
+### 3.1 Catalog public
 
-## 4) Chi tiết task theo WBS
+- Trang danh sách sách
+- Trang chi tiết sách
+- Trang tìm kiếm sách
+- Trang danh sách danh mục
+- Trang chi tiết danh mục
 
-### 4.1 Header - Search UX (WBS 1.1.2)
+### 3.2 Search UX
 
-- Chuẩn hóa hành vi focus input (border/highlight rõ ràng).
-- Hỗ trợ Enter để submit search UI event (tạm thời log/placeholder action).
-- Thêm hành vi clear input để người dùng xóa nhanh.
-- Chuẩn hóa icon Search click để trigger cùng hành vi với Enter.
+- Search box global/header
+- Search suggestions autocomplete
+- Trending keywords
+- Search history panel + clear/delete item
 
-Tiêu chí nghiệm thu:
+### 3.3 Admin catalog
 
-- Focus state rõ ràng, không bị nhảy layout.
-- Enter và icon click đều trigger 1 handler giống nhau.
-- Có cách clear keyword trong <= 1 thao tác.
-- Không break ở breakpoint <= 1024 (search ẩn/hiện đúng thiết kế).
+- Quản lý sách: list/create/edit/delete
+- Quản lý danh mục: list/create/edit/delete
 
-### 4.2 LoginForm - validation và loading (WBS 1.2.1, 1.2.3)
+## 4) API scope phụ trách
 
-- Chuẩn hóa message validation email/password để thống nhất.
-- Khi đang submit: khóa nút login, tránh double submit.
-- Khi đang google login: khóa action liên quan để tránh spam click.
-- Kiểm tra alignment của remember me + forgot password.
+- GET /book
+- GET /book/id/:id
+- GET /book/search
+- POST /book/create
+- PUT /book/update/:id
+- DELETE /book/delete/:id
+- GET /category
+- GET /category/:id
+- POST /category
+- PUT /category/:id
+- DELETE /category/:id
+- GET /search/history
+- GET /search/suggestions
+- GET /search/trending
+- POST /search/clear-history
+- DELETE /search/history/:id
 
-Tiêu chí nghiệm thu:
+## 5) Chi tiết task theo WBS
 
-- Validation message dễ hiểu, thống nhất giữa các field.
-- Không gửi trùng request khi loading=true.
-- UI loading không làm xô layout nút.
+### 5.1 Books module
 
-### 4.3 LoginForm - responsive và spacing (WBS 1.2.2)
+- Tạo list/detail/search page theo contract API.
+- Chuẩn hóa filter, sort, pagination state.
+- Tối ưu empty/loading/error cho list và detail.
 
-- Căn lại khoảng cách header/subtitle/input/button cho mobile.
-- Đảm bảo form không tràn màn hình ở chiều cao nhỏ.
+### 5.2 Categories module
 
-Tiêu chí nghiệm thu:
+- Tạo danh sách và chi tiết category.
+- Cắm bộ lọc category vào search/list sách.
+- Tạo CRUD category cho quyền admin/moderator.
 
-- Ở 375px vẫn đọc dễ, không mất input/button.
-- Ở >= 1024 layout cân đối với Banner.
+### 5.3 Search module
 
-## 5) Kiểm thử bắt buộc
+- Kết nối suggestions và trending vào giao diện tìm kiếm.
+- Quản lý history: xem, xóa từng item, xóa toàn bộ.
+- Debounce input + xử lý race condition khi search nhanh.
 
-- Test đăng nhập email/password thành công/thất bại (message hiện đúng).
-- Test Google login button loading state.
-- Test keyboard Enter trên input password.
-- Test responsive: 375x812, 768x1024, 1366x768.
+### 5.4 Admin catalog
 
-## 6) Deliverables
+- Form create/edit sách có validation chuẩn.
+- Danh sách quản trị có action rõ ràng, confirm trước delete.
 
-- 1 PR code cho LoginForm + Header search
-- 3-5 screenshot (desktop/mobile/loading state)
-- Video ngắn (10-20s) nếu có để minh họa Search UX
+## 6) Tiêu chí nghiệm thu
 
-## 7) Out of scope
+- Các endpoint books/categories/search trong scope chạy đúng.
+- Search hoạt động đúng với keyword/category/page/limit.
+- Danh sách và chi tiết sách/category có loading/error/empty đầy đủ.
+- CRUD sách/category hoạt động ổn định trên role hợp lệ.
 
-- Chưa kết nối API gợi ý search.
-- Chưa xử lý search history/trending.
+## 7) Kiểm thử bắt buộc
 
-## 8) Dependency
+- Test browse sách từ list -> detail -> quay lại list.
+- Test search theo keyword/category và phân trang.
+- Test suggestions/trending/history đầy đủ state.
+- Test admin create/update/delete sách và category.
+- Test responsive các page catalog/search (375/768/1024/1366).
 
-- Rebase sau khi Header navigation của Huy đã merge.
+## 8) Deliverables
+
+- 1 PR chính cho public catalog + search.
+- 1 PR phụ cho admin catalog CRUD.
+- Bộ ảnh minh họa các trạng thái list/detail/search/admin.
+- Checklist test cho full flow catalog.
+
+## 9) Dependency
+
+- Cần Huy hoàn tất auth + guard để khóa route admin đúng role.
+- Cần Huy hoàn tất app foundation (layout shell + error pages + shared loading/empty).
+- Cần Oanh cung cấp upload media component để dùng trong form sách (image/pdf).
+
+## 10) Out of scope
+
+- Không làm user management admin (create/update user).
+- Không làm rating/favorite nghiệp vụ sâu (chỉ hiển thị nếu cần cho book detail).

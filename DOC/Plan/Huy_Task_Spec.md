@@ -1,83 +1,132 @@
-# Đặc tả Task - Huy (UI Navigation + Hero)
+# Đặc tả Task - Huy (Luồng 1: Auth + Guard + App Foundation)
 
 ## 1) Thông tin chung
 
 - Thành viên: Huy
-- WBS chính: 1.1.1 + 1.4.x
-- Story point: 7
-- Branch đề xuất: feat/header-nav-hero-huy
-- Ticket đề xuất: FE-WBS-01
+- Luồng phụ trách: Auth + Security Guard + Shared Foundation
+- WBS chính: 1.0, 2.0, 10.0, 11.0 (phần nền tảng dùng chung)
+- Story point đề xuất: 35
+- Branch đề xuất: feat/auth-guard-huy
+- Ticket đề xuất: FE-STREAM-01
 
-## 2) Phạm vi file được sửa
+## 2) Mục tiêu công việc
 
-- src/components/layout/Header.jsx
-- src/pages/Home/components/HeroSection.jsx
+- Hoàn thiện toàn bộ luồng xác thực người dùng theo API.
+- Thiết lập route guard và permission guard cho public/user/admin.
+- Ổn định vòng đời token (login, refresh, logout, logout-all, session expiry).
+- Xây nền tảng dùng chung cho toàn app: layout shell, chuẩn lỗi hệ thống, chuẩn loading/empty state.
 
-## 3) Mục tiêu công việc
+## 3) Màn hình/chức năng phải hoàn thành
 
-- Chuẩn hóa navigation desktop/mobile trong Header.
-- Giảm trùng lặp JSX giữa menu desktop và menu mobile.
-- Đồng bộ spacing/layout HeroSection để khớp với Header và viewport mobile.
+### 3.1 Authentication pages
 
-## 4) Chi tiết task theo WBS
+- Login page
+- Register page
+- Verify email result page
+- Forgot password page
+- Reset password page
+- Google callback page
+- Change password page/modal
 
-### 4.1 Header - Navigation/Desktop/Mobile (WBS 1.1.1)
+### 3.2 Guard & session
 
-- Tạo danh sách nav item dùng chung (array object) để render cho desktop và mobile.
-- Đảm bảo click item trong Drawer mobile tự động đóng Drawer.
-- Chuẩn hóa style active cho item đang được chọn (ưu tiên sử dụng pathname).
-- Chuẩn hóa text nav hiện tại: Home, Shop, Pages, Blog, Contact.
+- Public route guard
+- Authenticated route guard
+- Role guard cho USER/MODERATOR/ADMIN
+- Session expired handling + redirect
 
-Tiêu chí nghiệm thu:
+### 3.3 Shared foundation pages/components
 
-- Menu desktop và mobile hiển thị cùng 1 bộ item.
-- Không còn hard-code trùng lặp JSX nav item ở 2 nơi.
-- Drawer mobile đóng sau khi chọn bất kỳ nav item nào.
-- Active state hiển thị đúng với route hiện tại.
+- App shell layout (Header/Footer/Main + route wrapper)
+- Trang lỗi hệ thống: 401/403/404/500
+- Bộ component dùng chung cho loading skeleton và empty state
 
-### 4.2 HeroSection - responsive/layout (WBS 1.4.1, 1.4.3)
+## 4) API scope phụ trách
 
-- Điều chỉnh spacing top của Hero để không bị che bởi Header sticky.
-- Chuẩn hóa breakpoint 1024/768/480 cho heading, button group, image.
-- Đơn giản hóa inline style có thể tái sử dụng (tách constant style nhỏ nếu cần).
-- Giữ animation hiện có, tránh tạo animation gây giật trên mobile.
+- POST /auth/register
+- POST /auth/login
+- GET /auth/me
+- POST /auth/change-password
+- GET /auth/verify-email
+- POST /auth/resend-verification
+- POST /auth/forgot-password
+- POST /auth/reset-password
+- GET /auth/google
+- GET /auth/google/callback
+- POST /auth/google/token
+- POST /auth/refresh
+- POST /auth/logout
+- POST /auth/logout-all
 
-Tiêu chí nghiệm thu:
+## 5) Chi tiết task theo WBS
 
-- Hero không bị overlap Header ở desktop/mobile.
-- Ở 375px, 768px, >= 1024px bố cục không vỡ.
-- CTA button trong Hero vẫn click được, không bị element khác đè lên.
+### 5.1 Foundation cho Auth
 
-### 4.3 HeroSection - copy/CTA (WBS 1.4.2)
+- Chuẩn hóa auth context/store.
+- Chuẩn hóa token storage strategy.
+- Chuẩn hóa interceptor cho 401 + refresh token.
 
-- Rà soát copy hiện tại cho ngắn gọn, dễ đọc.
-- Đảm bảo 2 CTA rõ nghĩa, text ngắn và thống nhất tone.
+### 5.2 Luồng đăng nhập/đăng ký
 
-Tiêu chí nghiệm thu:
+- Hoàn thiện register/login form validation.
+- Chuẩn hóa thông báo lỗi/success từ API.
+- Điều hướng sau login/logout đúng role.
 
-- Không còn đoạn mô tả bị lặp/chưa thống nhất thương hiệu.
-- CTA text thống nhất theo định hướng Home page.
+### 5.3 Luồng email/password nâng cao
 
-## 5) Kiểm thử bắt buộc
+- Verify email result + resend verification.
+- Forgot/reset password theo token.
+- Change password cho user đã đăng nhập.
 
-- Test tay route: /, /login, /register
-- Test responsive: 375x812, 768x1024, 1366x768
-- Test Drawer:
-  - Mở Drawer
-  - Click từng nav item
-  - Drawer đóng đúng hành vi
+### 5.4 OAuth Google
 
-## 6) Deliverables
+- Nút login Google, callback nhận token, đồng bộ session.
+- Fallback error state khi callback thất bại.
 
-- 1 PR code cho Header + HeroSection
-- 3-5 screenshot (desktop + mobile + drawer)
-- Mô tả PR gồm: scope, before/after, risk và cách test
+### 5.5 Guard hệ thống
 
-## 7) Out of scope
+- Route-level guard cho trang private/admin.
+- UI-level guard ẩn/disable action theo role.
 
-- Chưa kết nối API search/book category.
-- Chưa làm page nội dung cho Shop/Pages/Blog/Contact.
+### 5.6 Nền tảng dùng chung cho toàn app
 
-## 8) Dependency
+- Chuẩn hóa app layout shell để các module cắm vào thống nhất.
+- Tạo trang lỗi 401/403/404/500 và luồng điều hướng phù hợp.
+- Tạo bộ EmptyState và LoadingSkeleton tái sử dụng.
 
-- Merge sớm để Han và Oanh rebase vào Header mới.
+## 6) Tiêu chí nghiệm thu
+
+- Toàn bộ endpoint auth trong scope được gọi đúng contract.
+- Không truy cập được trang private khi chưa login.
+- Không truy cập được trang admin khi role không hợp lệ.
+- Login/logout/logout-all hoạt động nhất quán trên toàn app.
+- Có loading/error state cho tất cả form auth.
+- Có trang lỗi hệ thống hoạt động đúng cho 401/403/404/500.
+- Han và Oanh có thể tái sử dụng EmptyState/LoadingSkeleton không phải viết lại.
+
+## 7) Kiểm thử bắt buộc
+
+- Test login/register thành công và thất bại.
+- Test verify email hợp lệ/hết hạn token.
+- Test forgot/reset password end-to-end.
+- Test Google callback có token và không có token.
+- Test role guard USER/MODERATOR/ADMIN.
+- Test chuyển hướng tới 401/403/404/500 theo đúng tình huống.
+- Test component loading/empty dùng tốt trên ít nhất 3 màn hình khác nhau.
+
+## 8) Deliverables
+
+- 1 PR chính cho auth core + guard.
+- 1 PR phụ cho app foundation (layout + error pages + shared loading/empty).
+- Checklist test auth flow đầy đủ.
+- Screenshot/video ngắn cho các luồng chính.
+
+## 9) Dependency
+
+- Cần Han cung cấp các page catalog để tích hợp EmptyState/LoadingSkeleton.
+- Cần Oanh cung cấp các page admin/user để áp chuẩn lỗi và guard đồng nhất.
+
+## 10) Out of scope
+
+- Không làm business logic quản lý sách/category/user admin chi tiết.
+- Không làm media upload manager UI.
