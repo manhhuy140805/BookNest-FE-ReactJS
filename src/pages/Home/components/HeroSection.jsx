@@ -1,37 +1,37 @@
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../components/common/Button";
-import "./HeroSection.css";
+import styles from "./HeroSection.module.css";
 
 export default function HeroSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="hero-section">
-      <div className="hero-container">
-        <div className="hero-content">
+    <section className={styles.heroSection}>
+      <div className={styles.heroContainer}>
+        <div className={styles.heroContent}>
           {/* Badge */}
-          <div className="hero-badge">
-            <span className="hero-badge-text">Editor Choice Best Books</span>
-            <span className="hero-badge-discount">Up To 50% Off</span>
+          <div className={styles.heroBadge}>
+            <span className={styles.heroBadgeText}>Editor Choice Best Books</span>
+            <span className={styles.heroBadgeDiscount}>Up To 50% Off</span>
           </div>
 
           {/* Main Heading */}
-          <h1 className="hero-heading">
+          <h1 className={styles.heroHeading}>
             Your Next Favorite Book
             <br />
-            Is Just A <span className="hero-highlight">Click Away</span>
+            Is Just A <span className={styles.heroHighlight}>Click Away</span>
           </h1>
 
           {/* Description */}
-          <p className="hero-description">
+          <p className={styles.heroDescription}>
             Sed ac arcu sed felis vulputate molestie. Nullam at urna in velit
             finibus vestibulum euismod A Urna. Sed quia aliquam leo. Duis
             iaculis lorem mauris, et convallis du
           </p>
 
           {/* Buttons */}
-          <div className="hero-buttons">
+          <div className={styles.heroButtons}>
             <Button
               text="Shop Now"
               variant="primary"
@@ -47,27 +47,27 @@ export default function HeroSection() {
         </div>
 
         {/* Hero Image */}
-        <div className="hero-image-section">
+        <div className={styles.heroImageSection}>
           <img
             src="/images/hero-girl-1.png"
             alt="Reading Girl"
-            className="hero-image"
+            className={styles.heroImage}
           />
           <img
             src="/images/book-2.png"
             alt="Book"
-            className="hero-floating-book"
+            className={styles.heroFloatingBook}
           />
           <img
             src="/images/book-shape.png"
             alt="Book"
-            className="hero-floating-book-bottom"
+            className={styles.heroFloatingBookBottom}
           />
         </div>
       </div>
 
       {/* Decorative Elements */}
-      <div className="hero-decorative-shape"></div>
+      <div className={styles.heroDecorativeShape}></div>
     </section>
   );
 }
