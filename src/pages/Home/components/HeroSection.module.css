@@ -1,4 +1,4 @@
-.hero-section {
+.heroSection {
   background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 50%, #c94b4b 100%);
   min-height: clamp(500px, 68vh, 720px);
   position: relative;
@@ -6,7 +6,7 @@
   padding-top: clamp(40px, 6vh, 80px);
 }
 
-.hero-container {
+.heroContainer {
   width: min(
     var(--layout-max-width),
     calc(100% - (var(--layout-side-padding) * 2))
@@ -21,12 +21,12 @@
   z-index: 2;
 }
 
-.hero-content {
+.heroContent {
   flex: 1;
   max-width: min(550px, 100%);
 }
 
-.hero-badge {
+.heroBadge {
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -35,14 +35,14 @@
   animation: fadeInRight 0.8s ease-out;
 }
 
-.hero-badge-text {
+.heroBadgeText {
   color: #ff6b6b;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
-.hero-badge-discount {
+.heroBadgeDiscount {
   background-color: #fff;
   color: #1a1a2e;
   padding: 4px 12px;
@@ -51,7 +51,7 @@
   font-weight: 700;
 }
 
-.hero-heading {
+.heroHeading {
   font-size: clamp(2rem, 4.8vw, 3.5rem);
   font-weight: 700;
   color: #fff;
@@ -60,11 +60,11 @@
   animation: fadeInRight 0.8s ease-out 0.2s backwards;
 }
 
-.hero-highlight {
+.heroHighlight {
   color: #ff6b6b;
 }
 
-.hero-description {
+.heroDescription {
   color: #e0e0e0;
   font-size: clamp(0.95rem, 1.1vw, 1rem);
   line-height: 1.6;
@@ -72,7 +72,7 @@
   animation: fadeInRight 0.8s ease-out 0.4s backwards;
 }
 
-.hero-buttons {
+.heroButtons {
   display: flex;
   gap: clamp(10px, 1.6vw, 16px);
   flex-wrap: wrap;
@@ -81,7 +81,7 @@
   animation: fadeInUp 0.8s ease-out 0.6s backwards;
 }
 
-.hero-image-section {
+.heroImageSection {
   flex: 1;
   position: relative;
   display: flex;
@@ -91,14 +91,14 @@
   animation: fadeInLeft 1s ease-out 0.3s backwards;
 }
 
-.hero-image {
+.heroImage {
   max-width: 100%;
   height: auto;
   position: relative;
   z-index: 2;
 }
 
-.hero-floating-book {
+.heroFloatingBook {
   position: absolute;
   top: 10%;
   right: 10%;
@@ -109,7 +109,7 @@
     scaleIn 0.8s ease-out 0.8s backwards;
 }
 
-.hero-floating-book-bottom {
+.heroFloatingBookBottom {
   position: absolute;
   bottom: -5%;
   left: -65%;
@@ -122,7 +122,7 @@
     scaleIn 0.8s ease-out 1s backwards;
 }
 
-.hero-decorative-shape {
+.heroDecorativeShape {
   position: absolute;
   bottom: -50px;
   left: -100px;
@@ -188,60 +188,60 @@
 }
 
 @media (max-width: 1024px) {
-  .hero-container {
+  .heroContainer {
     flex-direction: column;
     gap: 40px;
     padding-top: 60px;
   }
 
-  .hero-content {
+  .heroContent {
     max-width: 100%;
     text-align: center;
   }
 
-  .hero-heading {
+  .heroHeading {
     font-size: 42px;
   }
 
-  .hero-buttons {
+  .heroButtons {
     justify-content: center;
   }
 
-  .hero-image-section {
+  .heroImageSection {
     max-width: 500px;
   }
 }
 
 @media (max-width: 768px) {
-  .hero-section {
+  .heroSection {
     min-height: auto;
     padding-top: 40px;
   }
 
-  .hero-heading {
+  .heroHeading {
     font-size: 32px;
   }
 
-  .hero-description {
+  .heroDescription {
     font-size: 14px;
   }
 
-  .hero-floating-book {
+  .heroFloatingBook {
     width: 100px;
   }
 
-  .hero-floating-book-bottom {
+  .heroFloatingBookBottom {
     width: 140px;
     left: -20%;
   }
 }
 
 @media (max-width: 480px) {
-  .hero-heading {
+  .heroHeading {
     font-size: 28px;
   }
 
-  .hero-badge {
+  .heroBadge {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
