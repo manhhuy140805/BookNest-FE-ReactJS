@@ -22,6 +22,11 @@ export default function Header() {
     setMobileMenuOpen(false);
   };
 
+  const handleFavoritesClick = () => {
+    navigate("/favorites");
+    setMobileMenuOpen(false);
+  };
+
   const getAvatarUrl = () => {
     if (!user) return null;
     return (
@@ -144,7 +149,7 @@ export default function Header() {
         {/* Mobile Icons & Menu Button */}
         <div style={styles.mobileRight} className="mobile-right">
           <Badge count={0}>
-            <HeartOutlined style={styles.icon} />
+            <HeartOutlined style={styles.icon} onClick={handleFavoritesClick} />
           </Badge>
           <Badge count={0}>
             <ShoppingCartOutlined style={styles.icon} />

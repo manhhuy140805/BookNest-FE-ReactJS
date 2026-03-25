@@ -10,10 +10,12 @@ import {
   Alert,
   Space,
   Pagination,
+  message,
 } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import Header from "../../components/layout/Header";
-import FavoriteCard from "./components/FavoriteCard";
+import BookCard from "../../components/common/BookCard/BookCard";
+import * as favoritesService from "../../services/favorites";
 import styles from "./Favorites.module.css";
 
 const { Content } = Layout;
@@ -33,14 +35,14 @@ export default function Favorites() {
     try {
       setLoading(true);
       setError(null);
-      // TODO: Replace with actual API call
-      // const response = await api.get('/user/favoriteBooks');
-      // setFavorites(response.data);
-
-      // Mock data for now
-      setFavorites([]);
+      const response = await favoritesService.getFavorites();
+      setFavorites(response.data.favoriteBooks || []);
     } catch (err) {
-      setError(err.message || "Không thể tải danh sách yêu thích");
+      const errorMsg =
+        err.response?.data?.message ||
+        err.message ||
+        "Không thể tải danh sách yêu thích";
+      setError(errorMsg);
       console.error("Error fetching favorites:", err);
     } finally {
       setLoading(false);
@@ -49,13 +51,17 @@ export default function Favorites() {
 
   const handleRemoveFavorite = async (bookId) => {
     try {
-      // TODO: Replace with actual API call
-      // await api.delete(`/user/favorite/remove/${bookId}`);
+      await favoritesService.removeFavorite(bookId);
 
       // Update local state
       setFavorites(favorites.filter((book) => book.id !== bookId));
+      message.success("Đã xóa sách khỏi danh sách yêu thích");
     } catch (err) {
-      setError("Không thể xóa sách khỏi danh sách yêu thích");
+      const errorMsg =
+        err.response?.data?.message ||
+        "Không thể xóa sách khỏi danh sách yêu thích";
+      setError(errorMsg);
+      message.error(errorMsg);
       console.error("Error removing favorite:", err);
     }
   };
@@ -121,7 +127,7 @@ export default function Favorites() {
                 <Row gutter={[16, 24]}>
                   {displayedFavorites.map((book) => (
                     <Col key={book.id} xs={24} sm={12} md={8} lg={6}>
-                      <FavoriteCard
+                      <BookCard
                         book={book}
                         onRemoveFavorite={handleRemoveFavorite}
                       />
