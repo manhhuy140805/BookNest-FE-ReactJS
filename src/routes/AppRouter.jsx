@@ -3,7 +3,6 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Home from "../pages/Home/Home";
 import Favorites from "../pages/Favorites/Favorites";
-import BookList from "../pages/Books/BookList";
 
 function AppRoutes() {
   return (
