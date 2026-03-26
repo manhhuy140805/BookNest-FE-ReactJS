@@ -124,6 +124,7 @@
   padding: 60px;
   position: relative;
   overflow: hidden;
+  color: white;
 }
 
 .backgroundImage {
@@ -202,6 +203,15 @@
   animation: fadeInScale 1s ease-out;
 }
 
+.icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  display: block;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color: #ffd700;
+  animation: fadeInScale 1s ease-out;
+}
+
 .heading {
   font-size: 35px;
   font-weight: 700;
@@ -212,6 +222,15 @@
   animation:
     fadeInUp 1s ease-out 0.3s both,
     shimmer 4s ease-in-out 1.5s infinite;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 0 0 20px 0;
+  color: white;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 1s ease-out 0.2s both;
 }
 
 .highlight {
@@ -259,7 +278,6 @@
 .feature:hover .featureIcon {
   transform: scale(1.15);
   color: #ffed4e;
-  animation: none;
 }
 
 .featureText {
@@ -267,5 +285,4 @@
   font-size: 14px;
   font-weight: 500;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  animation: fadeInUp 0.8s ease-out inherit;
 }

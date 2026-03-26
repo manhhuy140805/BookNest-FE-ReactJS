@@ -1,24 +1,22 @@
 import React from "react";
-import { ReadOutlined } from "@ant-design/icons";
-import styles from "./RegisterBanner.module.css";
+import { BookOutlined, StarFilled, CommentOutlined } from "@ant-design/icons";
+import Banner from "./Banner";
 
 const RegisterBanner = () => {
-  return (
-    <div className={`hidden-mobile ${styles.container}`}>
-      {/* Background Image with Overlay */}
-      <div className={styles.backgroundImage} />
-      <div className={styles.overlay} />
+  const features = [
+    { icon: <BookOutlined />, text: "Thousands of Books" },
+    { icon: <StarFilled />, text: "Curated Collections" },
+    { icon: <CommentOutlined />, text: "Reader Community" },
+  ];
 
-      {/* Content */}
-      <div className={styles.content}>
-        <ReadOutlined className={styles.icon} />
-        <h1 className={styles.title}>BookNest</h1>
-        <p className={styles.description}>
-          Join thousands of book lovers. Discover, review, and share your
-          favorite books.
-        </p>
-      </div>
-    </div>
+  return (
+    <Banner
+      logo="/images/logo/logo-text-white.png"
+      heading="Start Your Reading Journey"
+      highlight="Today"
+      description="Create your BookNest account to discover amazing books, build your personal library, and connect with a community of passionate readers."
+      features={features}
+    />
   );
 };
 
