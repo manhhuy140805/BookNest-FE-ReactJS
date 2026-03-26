@@ -248,6 +248,20 @@
   margin-top: 28px;
 }
 
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.books-pagination {
+  display: inline-block;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 1300px) {
   .books-grid-wrap {
     grid-template-columns: repeat(3, minmax(0, 1fr));

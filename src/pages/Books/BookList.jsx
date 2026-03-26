@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Checkbox, Col, Input, Row, Select, Space } from "antd";
 import {
   AppstoreOutlined,
@@ -8,6 +8,10 @@ import {
 } from "@ant-design/icons";
 import Header from "../../components/layout/Header";
 import "./BookList.css";
+import BookCard from "../../components/common/bookCard/BookCard";
+import apiClient from "../../config/api";
+import Footer from "../../components/common/Footer/Footer";
+import { Pagination } from "antd";
 
 const reviewBuckets = [
   { value: 5, count: 35 },
@@ -50,6 +54,8 @@ export default function BookList() {
   const [activeCategories, setActiveCategories] = useState([]);
   const [activeStatus, setActiveStatus] = useState("all");
   const [activeRatings, setActiveRatings] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 8;
 
   const toolbarResultText = useMemo(() => {
     const keywordSuffix = searchInput.trim()
@@ -58,13 +64,54 @@ export default function BookList() {
     return `Book list hidden${keywordSuffix}`;
   }, [searchInput]);
 
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await apiClient.get("/book"); // Corrected endpoint
+        if (Array.isArray(response.data)) {
+          setBooks(response.data);
+        } else {
+          console.error("Unexpected response format:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
+  const handleRemoveFavorite = (id) => {
+    setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id));
+  };
+
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const itemRender = (current, type, originalElement) => {
+    if (type === "prev") {
+      return <a>Previous</a>;
+    }
+    if (type === "next") {
+      return <a>Next</a>;
+    }
+    return originalElement;
+  };
+
   return (
     <div className="books-page-wrap">
       <Header />
 
       <section className="books-hero">
-        <h1>Shop Default</h1>
-        <p>Home &gt; Shop Default</p>
+        <h1>Book Default</h1>
+        <p>Home &gt; Book Default</p>
       </section>
 
       <main className="books-content-container">
@@ -178,14 +225,32 @@ export default function BookList() {
           </Col>
 
           <Col xs={24} lg={17} xl={18}>
-            <div className="books-empty-wrap">
-              <p className="books-hidden-message">
-                Book rendering area is hidden as requested.
-              </p>
+            <div className="books-list-wrap">
+              <Row gutter={[16, 16]}>
+                {currentBooks.map((book) => (
+                  <Col xs={24} sm={12} md={8} lg={6} key={book.id}>
+                    <BookCard
+                      book={book}
+                      onRemoveFavorite={handleRemoveFavorite}
+                    />
+                  </Col>
+                ))}
+              </Row>
+              <div className="pagination-container">
+                <Pagination
+                  current={currentPage}
+                  pageSize={booksPerPage}
+                  total={books.length}
+                  onChange={handlePageChange}
+                  className="books-pagination"
+                  itemRender={itemRender}
+                />
+              </div>
             </div>
           </Col>
         </Row>
       </main>
+      <Footer />
     </div>
   );
 }

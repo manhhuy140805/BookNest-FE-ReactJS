@@ -25,12 +25,13 @@ export default function BookCard({ book, onRemoveFavorite }) {
       ? Math.round(
           ((book.originalPrice - book.price) / book.originalPrice) * 100,
         )
-      : book?.discountPercent || 30;
+      : book?.discountPercent || 0;
 
-  const isHot = book?.isHot !== undefined ? book.isHot : true;
-  const rating = book?.rating || 3.4;
-  const reviewCount = book?.reviewCount || 25;
-  const currentPrice = book?.price || 30.0;
+  const isHot = book?.isHot !== undefined ? book.isHot : false;
+  const rating = book?.rating || 0;
+  const reviewCount = book?.reviewCount || 0;
+  const currentPrice = book?.price || 0;
+  const originalPrice = book?.originalPrice || null;
 
   const coverUrl =
     book?.coverImage || book?.imageUrl || "/images/sample-book.jpg";
@@ -46,25 +47,6 @@ export default function BookCard({ book, onRemoveFavorite }) {
           )}
         </div>
 
-        {/* Hover Actions - Right side */}
-        <div className={styles.hoverActions}>
-          <Tooltip title="Xóa khỏi yêu thích" placement="left">
-            <button className={styles.actionBtn} onClick={handleRemove}>
-              <HeartFilled className={styles.heartIcon} />
-            </button>
-          </Tooltip>
-          <Tooltip title="Chia sẻ" placement="left">
-            <button className={styles.actionBtn}>
-              <ShareAltOutlined />
-            </button>
-          </Tooltip>
-          <Tooltip title="Xem chi tiết" placement="left">
-            <button className={styles.actionBtn}>
-              <EyeOutlined />
-            </button>
-          </Tooltip>
-        </div>
-
         {/* Book Cover */}
         <img
           alt={book?.title || "Book Cover"}
@@ -76,24 +58,14 @@ export default function BookCard({ book, onRemoveFavorite }) {
       {/* Content */}
       <div className={styles.content}>
         <h3 className={styles.title} title={book?.title}>
-          {book?.title || "Simple Things You Save BOOK"}
+          {book?.title || "Book Title"}
         </h3>
 
-        <div className={styles.infoRow}>
-          <span className={styles.price}>
-            {book?.price !== undefined
-              ? new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(currentPrice)
-              : `$${currentPrice.toFixed(2)}`}
+        <div className={styles.rating}>
+          <StarFilled className={styles.starIcon} />
+          <span className={styles.ratingText}>
+            {rating} ({reviewCount})
           </span>
-          <div className={styles.rating}>
-            <StarFilled className={styles.starIcon} />
-            <span className={styles.ratingText}>
-              {rating} ({reviewCount})
-            </span>
-          </div>
         </div>
 
         <button className={styles.addToCartBtn} onClick={handleAddToCart}>
