@@ -9,7 +9,7 @@ import {
 import Header from "../../components/layout/Header";
 import "./BookList.css";
 import apiClient from "../../config/api";
-import Footer from "../../components/common/Footer/Footer";
+import Footer from "../../components/layout/Footer/Footer";
 import { Pagination } from "antd";
 import GridView from "./components/GridView";
 import ListView from "./components/ListView";

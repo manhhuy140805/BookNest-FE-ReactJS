@@ -85,8 +85,8 @@ export default function Header() {
           <Link to="/" style={styles.navLink}>
             Home
           </Link>
-          <Link to="/shop" style={styles.navLink}>
-            Shop
+          <Link to="/books" style={styles.navLink}>
+            Books
           </Link>
           <Link to="/pages" style={styles.navLink}>
             Pages
