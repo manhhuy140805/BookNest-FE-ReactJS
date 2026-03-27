@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { App as AntdApp } from "antd";
-import LoginBanner from "./components/LoginBanner";
+import LoginBanner from "./components/Banner/LoginBanner";
 import LoginForm from "./components/LoginForm";
 import { useAuth } from "../../hooks/useAuth";
 import * as authService from "../../services/auth";
@@ -27,8 +27,12 @@ const Login = () => {
       try {
         await login({ access_token, refresh_token });
         message.success("Google login successful!");
-        
-        window.history.replaceState({}, document.title, window.location.pathname);
+
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname,
+        );
         navigate("/");
       } catch (error) {
         const errorMessage =
@@ -97,8 +101,8 @@ const styles = {
     display: "flex",
     minHeight: "100vh",
     width: "100vw",
-    backgroundColor: "#f8f9fa"
-  }
+    backgroundColor: "#f8f9fa",
+  },
 };
 
 export default Login;

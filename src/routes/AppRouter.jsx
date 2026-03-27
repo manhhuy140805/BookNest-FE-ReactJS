@@ -12,6 +12,7 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/books" element={<BookList />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/books" element={<BookList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/auth/callback" element={<Login />} />
         <Route path="/register" element={<Register />} />
