@@ -73,7 +73,11 @@ export default function Header() {
       <div style={styles.container}>
         {/* Logo */}
         <Link to="/" style={styles.logo}>
-          <img src="/images/logo-2.png" alt="Boimela" style={styles.logoImg} />
+          <img
+            src="/images/logo/logo-2.png"
+            alt="Boimela"
+            style={styles.logoImg}
+          />
         </Link>
 
         {/* Desktop Navigation */}
