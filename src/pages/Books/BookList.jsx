@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { Checkbox, Col, Input, Row, Select, Space } from "antd";
+import { useMemo, useState, useEffect } from "react";
+import { Checkbox, Col, Input, Row, Select, Space, Button } from "antd";
 import {
   AppstoreOutlined,
   BarsOutlined,
@@ -8,6 +8,11 @@ import {
 } from "@ant-design/icons";
 import Header from "../../components/layout/Header";
 import "./BookList.css";
+import apiClient from "../../config/api";
+import Footer from "../../components/common/Footer/Footer";
+import { Pagination } from "antd";
+import GridView from "./components/GridView";
+import ListView from "./components/ListView";
 
 const reviewBuckets = [
   { value: 5, count: 35 },
@@ -50,21 +55,69 @@ export default function BookList() {
   const [activeCategories, setActiveCategories] = useState([]);
   const [activeStatus, setActiveStatus] = useState("all");
   const [activeRatings, setActiveRatings] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 8;
+  const [viewMode, setViewMode] = useState("grid");
 
   const toolbarResultText = useMemo(() => {
     const keywordSuffix = searchInput.trim()
-      ? ` for \"${searchInput.trim()}\"`
+      ? ` for "${searchInput.trim()}"`
       : "";
     return `Book list hidden${keywordSuffix}`;
   }, [searchInput]);
+
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await apiClient.get("/book");
+        if (Array.isArray(response.data)) {
+          setBooks(response.data);
+        } else {
+          console.error("Unexpected response format:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
+  const handleRemoveFavorite = (id) => {
+    setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id));
+  };
+
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleViewChange = (mode) => {
+    setViewMode(mode);
+  };
+
+  const itemRender = (current, type, originalElement) => {
+    if (type === "prev") {
+      return <a>Previous</a>;
+    }
+    if (type === "next") {
+      return <a>Next</a>;
+    }
+    return originalElement;
+  };
 
   return (
     <div className="books-page-wrap">
       <Header />
 
       <section className="books-hero">
-        <h1>Shop Default</h1>
-        <p>Home &gt; Shop Default</p>
+        <h1>Explore Our Collection</h1>
+        <p>Find your next favorite book</p>
       </section>
 
       <main className="books-content-container">
@@ -81,12 +134,26 @@ export default function BookList() {
           />
 
           <div className="books-toolbar-icons" aria-hidden>
-            <button type="button" className="active">
-              <AppstoreOutlined />
-            </button>
-            <button type="button">
-              <BarsOutlined />
-            </button>
+            <Button
+              type={viewMode === "grid" ? "primary" : "default"}
+              icon={<AppstoreOutlined />}
+              onClick={() => handleViewChange("grid")}
+              style={{
+                fontWeight: viewMode === "grid" ? "bold" : "normal",
+                borderColor: viewMode === "grid" ? "#ff4d4f" : "#d9d9d9",
+                backgroundColor: viewMode === "grid" ? "#fff1f0" : "#ffffff",
+              }}
+            />
+            <Button
+              type={viewMode === "list" ? "primary" : "default"}
+              icon={<BarsOutlined />}
+              onClick={() => handleViewChange("list")}
+              style={{
+                fontWeight: viewMode === "list" ? "bold" : "normal",
+                borderColor: viewMode === "list" ? "#ff4d4f" : "#d9d9d9",
+                backgroundColor: viewMode === "list" ? "#fff1f0" : "#ffffff",
+              }}
+            />
           </div>
         </div>
 
@@ -99,7 +166,7 @@ export default function BookList() {
                   allowClear
                   value={searchInput}
                   onChange={(event) => setSearchInput(event.target.value)}
-                  placeholder="Search here"
+                  placeholder="Search for books..."
                   suffix={<SearchOutlined />}
                 />
               </div>
@@ -110,10 +177,9 @@ export default function BookList() {
                   {categoryOptions.map((category) => {
                     const isActive = activeCategories.includes(category);
                     return (
-                      <button
+                      <Button
                         key={category}
-                        type="button"
-                        className={`books-category-item ${isActive ? "active" : ""}`}
+                        type={isActive ? "primary" : "default"}
                         onClick={() => {
                           setActiveCategories((prev) => {
                             if (prev.includes(category)) {
@@ -124,7 +190,7 @@ export default function BookList() {
                         }}
                       >
                         {category}
-                      </button>
+                      </Button>
                     );
                   })}
                 </div>
@@ -178,14 +244,46 @@ export default function BookList() {
           </Col>
 
           <Col xs={24} lg={17} xl={18}>
-            <div className="books-empty-wrap">
-              <p className="books-hidden-message">
-                Book rendering area is hidden as requested.
-              </p>
+            <div className="books-list-wrap">
+              {viewMode === "grid" ? (
+                <GridView books={currentBooks} />
+              ) : (
+                <ListView books={currentBooks} />
+              )}
+
+              <div
+                className="books-pagination-wrapper"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "20px",
+                }}
+              >
+                <div
+                  className="books-pagination"
+                  style={{
+                    padding: "15px 30px",
+                    backgroundColor: "#f8f9fa",
+                    borderRadius: "12px",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.15)",
+                  }}
+                >
+                  <Pagination
+                    current={currentPage}
+                    total={books.length}
+                    pageSize={booksPerPage}
+                    onChange={handlePageChange}
+                    itemRender={itemRender}
+                    showSizeChanger={false}
+                    showQuickJumper
+                  />
+                </div>
+              </div>
             </div>
           </Col>
         </Row>
       </main>
+      <Footer />
     </div>
   );
 }

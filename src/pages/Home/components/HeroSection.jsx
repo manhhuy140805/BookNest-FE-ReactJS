@@ -12,7 +12,9 @@ export default function HeroSection() {
         <div className={styles.heroContent}>
           {/* Badge */}
           <div className={styles.heroBadge}>
-            <span className={styles.heroBadgeText}>Editor Choice Best Books</span>
+            <span className={styles.heroBadgeText}>
+              Editor Choice Best Books
+            </span>
             <span className={styles.heroBadgeDiscount}>Up To 50% Off</span>
           </div>
 
@@ -49,17 +51,17 @@ export default function HeroSection() {
         {/* Hero Image */}
         <div className={styles.heroImageSection}>
           <img
-            src="/images/hero-girl-1.png"
+            src="/images/hero/hero-girl-1.png"
             alt="Reading Girl"
             className={styles.heroImage}
           />
           <img
-            src="/images/book-2.png"
+            src="/images/hero/book-2.png"
             alt="Book"
             className={styles.heroFloatingBook}
           />
           <img
-            src="/images/book-shape.png"
+            src="/images/hero/book-shape.png"
             alt="Book"
             className={styles.heroFloatingBookBottom}
           />
