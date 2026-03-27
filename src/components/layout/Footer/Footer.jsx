@@ -17,7 +17,7 @@ const Footer = () => {
       <div className="footer-container">
         {/* Brand Info */}
         <div className="footer-section footer-brand">
-          <h2 className="footer-logo">Bookwithh2o</h2>
+          <h2 className="footer-logo">BookNest</h2>
           <p className="footer-contact-label">Got Questions? Call us</p>
           <p className="footer-phone">+670 413 90 762</p>
           <p className="footer-email">hanhan@gmail.com</p>
@@ -103,7 +103,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} Bookmela. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} TOWHO. All rights reserved.</p>
       </div>
     </footer>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Form, Input, Checkbox } from "antd";
 import { UserOutlined, LockOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
 const LoginForm = ({ onFinish, loading, onGoogleLogin, googleLoading }) => {
@@ -17,11 +18,11 @@ const LoginForm = ({ onFinish, loading, onGoogleLogin, googleLoading }) => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: 100 },
+    hidden: { opacity: 0, x: 20 },
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { duration: 0.2, ease: "easeOut" },
     },
   };
 
