@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import BookCard from "../../../components/common/bookCard/BookCard";
 
 const ListView = ({ books }) => {
+  const navigate = useNavigate();
+
+  const handleViewDetails = (id) => {
+    navigate(`/books/${id}`);
+  };
+
   return (
     <div className="books-display list">
       {books.map((book) => (
@@ -77,15 +84,25 @@ const ListView = ({ books }) => {
               </span>
               <button
                 style={{
-                  backgroundColor: "#f76f5f",
-                  color: "#fff",
+                  backgroundColor: "#ffe3df",
+                  color: "#f76f5f",
                   border: "none",
                   padding: "8px 16px",
                   borderRadius: "4px",
                   cursor: "pointer",
+                  transition: "background-color 0.3s ease, color 0.3s ease",
                 }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = "#f76f5f";
+                  e.target.style.color = "#fff";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = "#ffe3df";
+                  e.target.style.color = "#f76f5f";
+                }}
+                onClick={() => handleViewDetails(book.id)}
               >
-                Add to Cart
+                Xem Chi Tiết
               </button>
             </div>
           </div>
