@@ -1,0 +1,152 @@
+.books-display.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.grid-book-item {
+  background-color: #fff1f0;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: center;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.grid-book-item:hover {
+  z-index: 10;
+}
+
+.grid-book-item:hover .grid-book-image {
+  overflow: visible;
+}
+
+.grid-book-item:hover .grid-book-image {
+  overflow: visible;
+}
+
+.grid-book-item:hover .grid-book-image img {
+  transform: scale(1.1);
+}
+
+.grid-book-image {
+  width: 100%;
+  height: 160px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  background: #fff1f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-book-image img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.grid-book-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 40px;
+}
+
+.grid-book-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.rating-stars .anticon-star-filled {
+  font-size: 14px;
+}
+
+.rating-stars .anticon-star-filled.active {
+  color: #f76f5f;
+}
+
+.rating-stars .anticon-star-filled.inactive {
+  color: #e0e0e0;
+}
+
+.rating-count {
+  font-size: 12px;
+  color: #999;
+}
+
+.grid-book-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 8px 0;
+}
+
+.grid-book-button {
+  background: linear-gradient(
+    to right,
+    #f76f5f 0%,
+    #f76f5f 50%,
+    #ffe3df 50%,
+    #ffe3df 100%
+  );
+  background-size: 200% 100%;
+  background-position: right;
+  color: #f76f5f;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  font-size: 14px;
+  margin-top: auto;
+}
+
+.grid-book-button:hover {
+  background-position: left;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .books-display.grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+
+  .grid-book-item {
+    padding: 12px;
+  }
+
+  .grid-book-image {
+    height: 160px;
+  }
+
+  .grid-book-title {
+    font-size: 14px;
+  }
+}

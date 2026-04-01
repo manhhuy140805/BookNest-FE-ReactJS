@@ -1,0 +1,130 @@
+.books-display.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.list-book-item {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.list-book-item:last-child {
+  border-bottom: none;
+}
+
+.list-book-image {
+  flex-shrink: 0;
+  width: 150px;
+  height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-book-image img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+
+.list-book-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.list-book-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.list-book-price {
+  display: none;
+}
+
+.list-book-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.list-book-rating .rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.list-book-rating .rating-stars .anticon-star-filled {
+  font-size: 16px;
+}
+
+.list-book-rating .rating-stars .anticon-star-filled.active {
+  color: #f76f5f;
+}
+
+.list-book-rating .rating-stars .anticon-star-filled.inactive {
+  color: #e0e0e0;
+}
+
+.list-book-rating .rating-count {
+  font-size: 14px;
+  color: #666;
+}
+
+.list-book-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.list-book-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.list-book-button {
+  background: linear-gradient(
+    to right,
+    #f76f5f 0%,
+    #f76f5f 50%,
+    #ffe3df 50%,
+    #ffe3df 100%
+  );
+  background-size: 200% 100%;
+  background-position: right;
+  color: #f76f5f;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.list-book-button:hover {
+  background-position: left;
+  color: #fff;
+}

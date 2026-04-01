@@ -169,24 +169,29 @@
 }
 
 .addToCartBtn {
-  background: #ffd6d6; /* Lighter color */
+  background: linear-gradient(
+    to right,
+    #ff7b7b 0%,
+    #ff7b7b 50%,
+    #ffd6d6 50%,
+    #ffd6d6 100%
+  );
+  background-size: 200% 100%;
+  background-position: right;
   color: #ff7b7b;
   font-size: 14px;
   font-weight: 600;
-  padding: 12px 20px; /* Adjusted padding for wider button */
+  padding: 12px 20px;
   border: none;
-  border-radius: 20px; /* Rounded corners */
+  border-radius: 20px;
   cursor: pointer;
-  transition:
-    background 0.3s ease,
-    transform 0.2s ease;
-  width: 100%; /* Make button take full width */
+  transition: all 0.4s ease;
+  width: 100%;
 }
 
 .addToCartBtn:hover {
-  background: #ff7b7b; /* Darker color on hover */
+  background-position: left;
   color: #fff;
-  transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
 /* Responsive */
