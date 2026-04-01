@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { App as AntdApp, Button, Modal, Typography } from "antd";
-import RegisterBanner from "./components/RegisterBanner";
+import RegisterBanner from "./components/Banner/RegisterBanner";
 import RegisterForm from "./components/RegisterForm";
 import * as authService from "../../services/auth";
 

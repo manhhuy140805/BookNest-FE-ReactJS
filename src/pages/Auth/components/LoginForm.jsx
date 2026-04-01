@@ -2,16 +2,43 @@ import React from "react";
 import { Button, Form, Input, Checkbox } from "antd";
 import { UserOutlined, LockOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 
 const LoginForm = ({ onFinish, loading, onGoogleLogin, googleLoading }) => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.2, ease: "easeOut" },
+    },
+  };
+
   return (
     <div style={styles.container}>
-      <div style={styles.formWrapper}>
+      <motion.div
+        style={styles.formWrapper}
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
         {/* Header */}
-        <div style={styles.header}>
+        <motion.div style={styles.header} variants={itemVariants}>
           <h2 style={styles.title}>Welcome Back!</h2>
           <p style={styles.subtitle}>Please login to your account</p>
-        </div>
+        </motion.div>
 
         <Form
           name="normal_login"
@@ -19,77 +46,93 @@ const LoginForm = ({ onFinish, loading, onGoogleLogin, googleLoading }) => {
           size="large"
           onFinish={onFinish}
         >
-          <Form.Item
-            name="email"
-            rules={[
-              { required: true, message: "Please input your Email!" },
-              { type: "email", message: "Invalid email format" },
-            ]}
-          >
-            <Input
-              prefix={<UserOutlined style={styles.inputIcon} />}
-              placeholder="Email Address"
-              style={styles.input}
-            />
-          </Form.Item>
+          <motion.div variants={itemVariants}>
+            <Form.Item
+              name="email"
+              rules={[
+                { required: true, message: "Please input your Email!" },
+                { type: "email", message: "Invalid email format" },
+              ]}
+            >
+              <Input
+                prefix={<UserOutlined style={styles.inputIcon} />}
+                placeholder="Email Address"
+                style={styles.input}
+              />
+            </Form.Item>
+          </motion.div>
 
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: "Please input your Password!" }]}
-          >
-            <Input.Password
-              prefix={<LockOutlined style={styles.inputIcon} />}
-              placeholder="Password"
-              style={styles.input}
-            />
-          </Form.Item>
+          <motion.div variants={itemVariants}>
+            <Form.Item
+              name="password"
+              rules={[
+                { required: true, message: "Please input your Password!" },
+              ]}
+            >
+              <Input.Password
+                prefix={<LockOutlined style={styles.inputIcon} />}
+                placeholder="Password"
+                style={styles.input}
+              />
+            </Form.Item>
+          </motion.div>
 
-          <Form.Item>
-            <div style={styles.rememberRow}>
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox style={styles.checkbox}>Remember me</Checkbox>
-              </Form.Item>
-              <Link to="/forgot-password" style={styles.forgotLink}>
-                Forgot password?
+          <motion.div variants={itemVariants}>
+            <Form.Item>
+              <div style={styles.rememberRow}>
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                  <Checkbox style={styles.checkbox}>Remember me</Checkbox>
+                </Form.Item>
+                <Link to="/forgot-password" style={styles.forgotLink}>
+                  Forgot password?
+                </Link>
+              </div>
+            </Form.Item>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                loading={loading}
+                style={styles.loginButton}
+              >
+                Log in
+              </Button>
+            </Form.Item>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <div style={styles.divider}>
+              <span style={styles.dividerText}>Or continue with</span>
+              <div style={styles.dividerLine}></div>
+            </div>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <Button
+              icon={<GoogleOutlined />}
+              block
+              onClick={onGoogleLogin}
+              loading={googleLoading}
+              style={styles.googleButton}
+            >
+              Google
+            </Button>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <div style={styles.footer}>
+              Don't have an account?{" "}
+              <Link to="/register" style={styles.registerLink}>
+                Register now
               </Link>
             </div>
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              loading={loading}
-              style={styles.loginButton}
-            >
-              Log in
-            </Button>
-          </Form.Item>
-
-          <div style={styles.divider}>
-            <span style={styles.dividerText}>Or continue with</span>
-            <div style={styles.dividerLine}></div>
-          </div>
-
-          <Button
-            icon={<GoogleOutlined />}
-            block
-            onClick={onGoogleLogin}
-            loading={googleLoading}
-            style={styles.googleButton}
-          >
-            Google
-          </Button>
-
-          <div style={styles.footer}>
-            Don't have an account?{" "}
-            <Link to="/register" style={styles.registerLink}>
-              Register now
-            </Link>
-          </div>
+          </motion.div>
         </Form>
-      </div>
+      </motion.div>
     </div>
   );
 };
@@ -102,53 +145,53 @@ const styles = {
     alignItems: "center",
     backgroundColor: "#fff",
     padding: "40px 20px",
-    minHeight: "100vh"
+    minHeight: "100vh",
   },
   formWrapper: {
     width: "100%",
-    maxWidth: "440px"
+    maxWidth: "440px",
   },
   header: {
     marginBottom: "40px",
-    textAlign: "center"
+    textAlign: "center",
   },
   title: {
     fontSize: "36px",
     fontWeight: "700",
     color: "#1a1a2e",
     marginBottom: "12px",
-    margin: 0
+    margin: 0,
   },
   subtitle: {
     color: "#8c8c8c",
     fontSize: "16px",
-    margin: "12px 0 0 0"
+    margin: "12px 0 0 0",
   },
   input: {
     borderRadius: "12px",
     border: "1px solid #e6e6e6",
     padding: "12px 16px",
     fontSize: "15px",
-    transition: "all 0.3s"
+    transition: "all 0.3s",
   },
   inputIcon: {
     color: "#bfbfbf",
-    fontSize: "18px"
+    fontSize: "18px",
   },
   rememberRow: {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   checkbox: {
     color: "#8c8c8c",
-    fontSize: "14px"
+    fontSize: "14px",
   },
   forgotLink: {
     color: "#ff6b6b",
     fontWeight: "500",
     fontSize: "14px",
-    textDecoration: "none"
+    textDecoration: "none",
   },
   loginButton: {
     height: "52px",
@@ -158,12 +201,12 @@ const styles = {
     backgroundColor: "#ff6b6b",
     border: "none",
     boxShadow: "0 4px 14px 0 rgba(255, 107, 107, 0.39)",
-    transition: "all 0.3s"
+    transition: "all 0.3s",
   },
   divider: {
     textAlign: "center",
     margin: "24px 0",
-    position: "relative"
+    position: "relative",
   },
   dividerText: {
     backgroundColor: "#fff",
@@ -171,7 +214,7 @@ const styles = {
     color: "#8c8c8c",
     fontSize: "14px",
     position: "relative",
-    zIndex: 1
+    zIndex: 1,
   },
   dividerLine: {
     position: "absolute",
@@ -179,7 +222,7 @@ const styles = {
     left: "0",
     right: "0",
     borderTop: "1px solid #f0f0f0",
-    zIndex: 0
+    zIndex: 0,
   },
   googleButton: {
     height: "52px",
@@ -188,19 +231,19 @@ const styles = {
     color: "#595959",
     fontWeight: "500",
     fontSize: "15px",
-    transition: "all 0.3s"
+    transition: "all 0.3s",
   },
   footer: {
     textAlign: "center",
     marginTop: "32px",
     color: "#8c8c8c",
-    fontSize: "15px"
+    fontSize: "15px",
   },
   registerLink: {
     color: "#ff6b6b",
     fontWeight: "600",
-    textDecoration: "none"
-  }
+    textDecoration: "none",
+  },
 };
 
 export default LoginForm;

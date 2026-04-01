@@ -73,7 +73,11 @@ export default function Header() {
       <div style={styles.container}>
         {/* Logo */}
         <Link to="/" style={styles.logo}>
-          <img src="/images/logo-2.png" alt="Boimela" style={styles.logoImg} />
+          <img
+            src="/images/logo/logo-2.png"
+            alt="Boimela"
+            style={styles.logoImg}
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -81,8 +85,8 @@ export default function Header() {
           <Link to="/" style={styles.navLink}>
             Home
           </Link>
-          <Link to="/shop" style={styles.navLink}>
-            Shop
+          <Link to="/books" style={styles.navLink}>
+            Books
           </Link>
           <Link to="/pages" style={styles.navLink}>
             Pages
@@ -284,20 +288,21 @@ export default function Header() {
 const styles = {
   header: {
     backgroundColor: "#fff",
-    padding: "16px 0",
+    padding: "clamp(10px, 1.4vw, 16px) 0",
     boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
     position: "sticky",
     top: 0,
     zIndex: 1000,
   },
   container: {
-    maxWidth: "1200px",
+    width:
+      "min(var(--layout-max-width), calc(100% - (var(--layout-side-padding) * 2)))",
     margin: "0 auto",
-    padding: "0 24px",
+    padding: "0",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: "24px",
+    gap: "clamp(12px, 2vw, 24px)",
   },
   logo: {
     display: "flex",
@@ -308,8 +313,8 @@ const styles = {
     flexShrink: 0,
   },
   logoImg: {
-    width: "140px",
-    height: "40px",
+    width: "clamp(110px, 12vw, 140px)",
+    height: "auto",
   },
   logoText: {
     fontSize: "24px",
@@ -317,13 +322,13 @@ const styles = {
   },
   nav: {
     display: "flex",
-    gap: "32px",
+    gap: "clamp(16px, 2vw, 32px)",
     flex: 1,
   },
   navLink: {
     color: "#1a1a2e",
     textDecoration: "none",
-    fontSize: "16px",
+    fontSize: "clamp(14px, 1vw, 16px)",
     fontWeight: "500",
     transition: "color 0.3s",
     whiteSpace: "nowrap",
@@ -331,15 +336,15 @@ const styles = {
   rightSection: {
     display: "flex",
     alignItems: "center",
-    gap: "20px",
+    gap: "clamp(12px, 1.8vw, 20px)",
   },
   searchBox: {
     position: "relative",
-    width: "240px",
+    width: "clamp(180px, 16vw, 240px)",
   },
   searchInput: {
     width: "100%",
-    padding: "10px 40px 10px 16px",
+    padding: "clamp(8px, 0.9vw, 10px) 40px clamp(8px, 0.9vw, 10px) 16px",
     border: "1px solid #e0e0e0",
     borderRadius: "8px",
     fontSize: "14px",
@@ -356,17 +361,17 @@ const styles = {
   },
   icons: {
     display: "flex",
-    gap: "16px",
+    gap: "clamp(10px, 1.3vw, 16px)",
   },
   icon: {
-    fontSize: "22px",
+    fontSize: "clamp(18px, 1.4vw, 22px)",
     color: "#1a1a2e",
     cursor: "pointer",
   },
   userSection: {
     display: "flex",
     alignItems: "center",
-    gap: "12px",
+    gap: "clamp(8px, 1vw, 12px)",
     cursor: "pointer",
     padding: "6px 12px",
     borderRadius: "8px",
@@ -377,7 +382,7 @@ const styles = {
     cursor: "pointer",
   },
   userName: {
-    fontSize: "14px",
+    fontSize: "clamp(13px, 0.9vw, 14px)",
     fontWeight: "500",
     color: "#1a1a2e",
     maxWidth: "120px",
@@ -389,12 +394,12 @@ const styles = {
     display: "flex",
     alignItems: "center",
     gap: "8px",
-    padding: "10px 20px",
+    padding: "clamp(8px, 0.9vw, 10px) clamp(14px, 1.5vw, 20px)",
     backgroundColor: "#ff6b6b",
     color: "#fff",
     border: "none",
     borderRadius: "8px",
-    fontSize: "14px",
+    fontSize: "clamp(13px, 0.9vw, 14px)",
     fontWeight: "500",
     cursor: "pointer",
     transition: "all 0.3s ease",
