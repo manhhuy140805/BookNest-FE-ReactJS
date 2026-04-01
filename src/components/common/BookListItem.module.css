@@ -1,0 +1,81 @@
+/* Add your styles for BookListItem here */
+.listItem {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.imageContainer {
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+
+.image {
+  width: 120px;
+  height: 180px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.detailsContainer {
+  flex: 1;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.description {
+  margin: 8px 0;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.metaInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.price {
+  color: #f76f5f;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.rating {
+  color: #999;
+  font-size: 14px;
+}
+
+.starIcon {
+  color: #f76f5f;
+  margin-right: 4px;
+}
+
+.detailsButton {
+  background-color: #ffe3df;
+  color: #f76f5f;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.detailsButton:hover {
+  background-color: #f76f5f;
+  color: #fff;
+}

@@ -73,6 +73,7 @@ export default function BookList() {
       try {
         const response = await apiClient.get("/book");
         if (Array.isArray(response.data)) {
+          console.log("Fetched books:", response.data);
           setBooks(response.data);
         } else {
           console.error("Unexpected response format:", response.data);
