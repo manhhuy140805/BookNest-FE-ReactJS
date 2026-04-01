@@ -6,8 +6,11 @@ import {
   StarFilled,
 } from "@ant-design/icons";
 import styles from "./BookCard.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function BookCard({ book, onRemoveFavorite }) {
+  const navigate = useNavigate();
+
   const handleRemove = () => {
     if (
       window.confirm("Bạn có chắc muốn xóa sách này khỏi danh sách yêu thích?")
@@ -16,8 +19,8 @@ export default function BookCard({ book, onRemoveFavorite }) {
     }
   };
 
-  const handleAddToCart = () => {
-    console.log("Add to cart:", book?.id);
+  const handleViewDetails = () => {
+    navigate(`/books/${book?.id}`);
   };
 
   const discountPercent =
@@ -34,7 +37,7 @@ export default function BookCard({ book, onRemoveFavorite }) {
   const originalPrice = book?.originalPrice || null;
 
   const coverUrl =
-    book?.coverImage || book?.imageUrl || "/images/sample-book.jpg";
+    book?.coverUrl || book?.imageUrl || "/images/sample-book.jpg";
 
   return (
     <div className={styles.card}>
@@ -68,8 +71,8 @@ export default function BookCard({ book, onRemoveFavorite }) {
           </span>
         </div>
 
-        <button className={styles.addToCartBtn} onClick={handleAddToCart}>
-          Add To Cart
+        <button className={styles.addToCartBtn} onClick={handleViewDetails}>
+          Xem Chi Tiết
         </button>
       </div>
     </div>

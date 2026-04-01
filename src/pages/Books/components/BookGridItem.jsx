@@ -6,12 +6,11 @@ const fallbackCover =
   "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=80";
 
 export default function BookGridItem({ book }) {
-  const title = book?.title || book?.name || "Updating title";
-  const image =
-    book?.coverImage || book?.thumbnail || book?.image || fallbackCover;
-  const rating = Number(book?.averageRating || book?.rating || 0);
+  const title = book?.title || "Updating title";
+  const image = book?.coverUrl || fallbackCover;
+  const rating = Number(book?.rating || 0);
   const reviewCount = Number(book?.reviewCount || 0);
-  const author = book?.author || book?.authorName || "Unknown author";
+  const author = book?.author || "Unknown author";
 
   return (
     <Card
@@ -37,7 +36,6 @@ export default function BookGridItem({ book }) {
           ) : null}
         </div>
       </div>
-
       <h3 className="book-item-title">{title}</h3>
 
       <div className="book-item-meta">
