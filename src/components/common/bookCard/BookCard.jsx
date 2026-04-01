@@ -37,7 +37,7 @@ export default function BookCard({ book, onRemoveFavorite }) {
   const originalPrice = book?.originalPrice || null;
 
   const coverUrl =
-    book?.coverImage || book?.imageUrl || "/images/sample-book.jpg";
+    book?.coverUrl || book?.imageUrl || "/images/sample-book.jpg";
 
   return (
     <div className={styles.card}>
