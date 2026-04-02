@@ -3,13 +3,13 @@ import { useParams } from "react-router-dom";
 import {
   CheckOutlined,
   HeartFilled,
-  MinusOutlined,
-  PlusOutlined,
+  HeartOutlined,
   StarFilled,
 } from "@ant-design/icons";
 import Header from "../../components/layout/Header";
 import Footer from "../../components/layout/Footer/Footer";
 import { getBookById } from "../../services/book";
+import { addFavorite, removeFavorite } from "../../services/favorites";
 import "./BookDetail.css";
 
 const FALLBACK_IMAGE = "https://via.placeholder.com/400x560?text=Book";
@@ -17,9 +17,9 @@ const FALLBACK_IMAGE = "https://via.placeholder.com/400x560?text=Book";
 const BookDetail = () => {
   const { id } = useParams();
   const [book, setBook] = useState(null);
-  const [qty, setQty] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -37,6 +37,19 @@ const BookDetail = () => {
 
     fetchBook();
   }, [id]);
+
+  const toggleFavorite = async () => {
+    try {
+      if (isFavorited) {
+        await removeFavorite(book.id);
+      } else {
+        await addFavorite(book.id);
+      }
+      setIsFavorited(!isFavorited);
+    } catch (err) {
+      console.error("Failed to toggle favorite:", err);
+    }
+  };
 
   if (loading) {
     return (
@@ -99,31 +112,16 @@ const BookDetail = () => {
             <p className="book-detail-description">{book.description}</p>
 
             <div className="book-detail-action-row">
-              <div className="book-detail-qty">
-                <button
-                  type="button"
-                  onClick={() => setQty((prev) => Math.max(1, prev - 1))}
-                >
-                  <MinusOutlined />
-                </button>
-                <span>{qty}</span>
-                <button
-                  type="button"
-                  onClick={() => setQty((prev) => prev + 1)}
-                >
-                  <PlusOutlined />
-                </button>
-              </div>
-
               <button type="button" className="book-detail-add-btn">
-                Add To Cart
+                Đọc sách
               </button>
               <button
                 type="button"
                 className="book-detail-icon-btn"
                 aria-label="Favorite"
+                onClick={toggleFavorite}
               >
-                <HeartFilled />
+                {isFavorited ? <HeartFilled /> : <HeartOutlined />}
               </button>
             </div>
 
