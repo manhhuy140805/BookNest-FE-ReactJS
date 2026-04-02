@@ -121,9 +121,6 @@ export default function Header() {
                 }}
               />
             </Badge>
-            <Badge count={0}>
-              <ShoppingCartOutlined style={styles.icon} />
-            </Badge>
           </div>
 
           {user ? (
