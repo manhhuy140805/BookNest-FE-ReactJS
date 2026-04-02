@@ -24,7 +24,7 @@ import Header from "../../components/layout/Header";
 import BookCard from "../../components/common/bookCard/BookCard";
 import * as favoritesService from "../../services/favorites";
 import { useAuth } from "../../hooks/useAuth";
-import "./Favorites.css";
+import styles from "./Favorites.module.css";
 
 const { Content } = Layout;
 
@@ -157,15 +157,15 @@ export default function Favorites() {
   };
 
   return (
-    <div className="favorites-page-wrap">
+    <div className={styles["favorites-page-wrap"]}>
       <Header />
 
-      <section className="favorites-hero">
+      <section className={styles["favorites-hero"]}>
         <h1>Favorite Books</h1>
         <p>Your collection of favorite reads</p>
       </section>
 
-      <main className="favorites-content-container">
+      <main className={styles["favorites-content-container"]}>
         {/* Error Alert */}
         {error && (
           <Alert
@@ -180,7 +180,7 @@ export default function Favorites() {
         )}
 
         {/* Toolbar */}
-        <div className="favorites-toolbar">
+        <div className={styles["favorites-toolbar"]}>
           <span>{toolbarResultText}</span>
 
           <Select
@@ -189,10 +189,10 @@ export default function Favorites() {
               setSortBy(value);
             }}
             options={sortOptions}
-            className="favorites-sort-select"
+            className={styles["favorites-sort-select"]}
           />
 
-          <div className="favorites-toolbar-icons" aria-hidden>
+          <div className={styles["favorites-toolbar-icons"]} aria-hidden>
             <Button
               type={viewMode === "grid" ? "primary" : "default"}
               icon={<AppstoreOutlined />}
@@ -225,8 +225,8 @@ export default function Favorites() {
           <Row gutter={[20, 20]}>
             {/* Sidebar */}
             <Col xs={24} lg={7} xl={6}>
-              <aside className="favorites-sidebar">
-                <div className="favorites-filter-block">
+              <aside className={styles["favorites-sidebar"]}>
+                <div className={styles["favorites-filter-block"]}>
                   <h3>Search</h3>
                   <Input
                     allowClear
@@ -237,9 +237,9 @@ export default function Favorites() {
                   />
                 </div>
 
-                <div className="favorites-filter-block">
+                <div className={styles["favorites-filter-block"]}>
                   <h3>Categories</h3>
-                  <div className="favorites-category-list">
+                  <div className={styles["favorites-category-list"]}>
                     {categoryOptions.map((category) => {
                       const isActive = activeCategories.includes(category);
                       return (
@@ -281,7 +281,7 @@ export default function Favorites() {
                 </div>
               ) : (
                 <>
-                  <div className="favorites-list-wrap">
+                  <div className={styles["favorites-list-wrap"]}>
                     <Row gutter={[16, 24]}>
                       {displayedFavorites.map((book) => (
                         <Col key={book.id} xs={24} sm={12} md={8} lg={6}>
@@ -296,7 +296,7 @@ export default function Favorites() {
 
                   {/* Pagination */}
                   {totalPages > 1 && (
-                    <div className="favorites-pagination-container">
+                    <div className={styles["favorites-pagination-container"]}>
                       <Pagination
                         current={currentPage}
                         total={totalBooks}
