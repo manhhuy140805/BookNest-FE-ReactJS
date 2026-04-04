@@ -30,21 +30,21 @@ export default function BookCard({ book, onRemoveFavorite, favoriteIds = [] }) {
 
     try {
       setLoading(true);
-      
+
       if (isFavorite) {
         // Remove from favorites
         await removeFavorite(book.id);
         setIsFavorite(false);
-        message.success("Đã xóa khỏi danh sách yêu thích!");
+        message.success("Removed from wishlist!");
       } else {
         // Add to favorites
         await addFavorite(book.id);
         setIsFavorite(true);
-        message.success("Đã thêm vào danh sách yêu thích!");
+        message.success("Added to wishlist!");
       }
     } catch (error) {
       console.error("Failed to update favorite:", error);
-      message.error("Có lỗi xảy ra!");
+      message.error("Error occurred!");
     } finally {
       setLoading(false);
     }
@@ -52,7 +52,9 @@ export default function BookCard({ book, onRemoveFavorite, favoriteIds = [] }) {
 
   const handleRemove = () => {
     if (
-      window.confirm("Bạn có chắc muốn xóa sách này khỏi danh sách yêu thích?")
+      window.confirm(
+        "Are you sure you want to remove this book from your wishlist?",
+      )
     ) {
       if (book?.id) onRemoveFavorite(book.id);
     }
@@ -96,7 +98,10 @@ export default function BookCard({ book, onRemoveFavorite, favoriteIds = [] }) {
 
         {/* Hover Actions */}
         <div className={styles.hoverActions}>
-          <Tooltip title={isFavorite ? "Remove from Wishlist" : "Add to Wishlist"} placement="left">
+          <Tooltip
+            title={isFavorite ? "Remove from Wishlist" : "Add to Wishlist"}
+            placement="left"
+          >
             <button
               className={`${styles.actionBtn} ${isFavorite ? styles.activeWishlist : ""}`}
               onClick={handleAddToWishlist}
@@ -126,7 +131,7 @@ export default function BookCard({ book, onRemoveFavorite, favoriteIds = [] }) {
 
         <div className={styles.infoRow}>
           <div className={styles.authorContainer}>
-            <span className={styles.author}>{book?.author || "Tác giả"}</span>
+            <span className={styles.author}>{book?.author || "Author"}</span>
           </div>
           <div className={styles.rating}>
             <StarFilled className={styles.starIcon} />
@@ -137,7 +142,7 @@ export default function BookCard({ book, onRemoveFavorite, favoriteIds = [] }) {
         </div>
 
         <button className={styles.addDetailBtn} onClick={handleViewDetails}>
-          Xem Chi Tiết
+          View Details
         </button>
       </div>
     </div>

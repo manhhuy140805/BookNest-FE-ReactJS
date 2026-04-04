@@ -21,6 +21,7 @@ import {
   BarsOutlined,
 } from "@ant-design/icons";
 import Header from "../../components/layout/Header";
+import Footer from "../../components/layout/Footer/Footer";
 import BookCard from "../../components/common/bookCard/BookCard";
 import * as favoritesService from "../../services/favorites";
 import { useAuth } from "../../hooks/useAuth";
@@ -54,7 +55,27 @@ export default function Favorites() {
   const [sortBy, setSortBy] = useState("default");
   const [activeCategories, setActiveCategories] = useState([]);
   const [viewMode, setViewMode] = useState("grid");
-  const itemsPerPage = 12;
+  const [showAddButton, setShowAddButton] = useState(true);
+  const itemsPerPage = 20;
+
+  // Handle scroll to hide button near footer
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+
+      // Hide button when within 300px of bottom
+      if (docHeight - (scrollTop + winHeight) < 300) {
+        setShowAddButton(false);
+      } else {
+        setShowAddButton(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Kiểm tra xác thực khi component mount
   useEffect(() => {
@@ -79,13 +100,12 @@ export default function Favorites() {
       setLoading(true);
       setError(null);
       const response = await favoritesService.getFavorites();
-      console.log("Fetched favorites:", response.data);
       setFavorites(response.data.favoriteBooks || []);
     } catch (err) {
       const errorMsg =
         err.response?.data?.message ||
         err.message ||
-        "Không thể tải danh sách yêu thích";
+        "Failed to load favorites";
       setError(errorMsg);
       console.error("Error fetching favorites:", err);
     } finally {
@@ -135,6 +155,11 @@ export default function Favorites() {
     startIdx + itemsPerPage,
   );
 
+  // Get list of favorite IDs for BookCard component
+  const favoriteIds = useMemo(() => {
+    return favorites.map((book) => book.id);
+  }, [favorites]);
+
   const handleViewChange = (mode) => {
     setViewMode(mode);
   };
@@ -142,14 +167,13 @@ export default function Favorites() {
   const handleRemoveFavorite = async (bookId) => {
     try {
       await favoritesService.removeFavorite(bookId);
+      message.success("Book removed from favorites");
 
-      // Update local state
-      setFavorites(favorites.filter((book) => book.id !== bookId));
-      message.success("Đã xóa sách khỏi danh sách yêu thích");
+      // Reload favorites list from API
+      fetchFavorites();
     } catch (err) {
       const errorMsg =
-        err.response?.data?.message ||
-        "Không thể xóa sách khỏi danh sách yêu thích";
+        err.response?.data?.message || "Failed to remove book from favorites";
       setError(errorMsg);
       message.error(errorMsg);
       console.error("Error removing favorite:", err);
@@ -165,7 +189,10 @@ export default function Favorites() {
         <p>Your collection of favorite reads</p>
       </section>
 
-      <main className={styles["favorites-content-container"]}>
+      <main
+        className={styles["favorites-content-container"]}
+        style={{ paddingLeft: "70px", paddingRight: "70px" }}
+      >
         {/* Error Alert */}
         {error && (
           <Alert
@@ -179,42 +206,53 @@ export default function Favorites() {
           />
         )}
 
-        {/* Toolbar */}
-        <div className={styles["favorites-toolbar"]}>
-          <span>{toolbarResultText}</span>
-
-          <Select
-            value={sortBy}
-            onChange={(value) => {
-              setSortBy(value);
-            }}
-            options={sortOptions}
-            className={styles["favorites-sort-select"]}
+        {/* Search Header */}
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            marginBottom: "20px",
+            alignItems: "center",
+          }}
+        >
+          <Input
+            placeholder="Search books..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            prefix={<SearchOutlined />}
+            style={{ flex: 1, maxWidth: "400px" }}
+            allowClear
           />
-
-          <div className={styles["favorites-toolbar-icons"]} aria-hidden>
-            <Button
-              type={viewMode === "grid" ? "primary" : "default"}
-              icon={<AppstoreOutlined />}
-              onClick={() => handleViewChange("grid")}
-              style={{
-                fontWeight: viewMode === "grid" ? "bold" : "normal",
-                borderColor: viewMode === "grid" ? "#ff4d4f" : "#d9d9d9",
-                backgroundColor: viewMode === "grid" ? "#fff1f0" : "#ffffff",
-              }}
-            />
-            <Button
-              type={viewMode === "list" ? "primary" : "default"}
-              icon={<BarsOutlined />}
-              onClick={() => handleViewChange("list")}
-              style={{
-                fontWeight: viewMode === "list" ? "bold" : "normal",
-                borderColor: viewMode === "list" ? "#ff4d4f" : "#d9d9d9",
-                backgroundColor: viewMode === "list" ? "#fff1f0" : "#ffffff",
-              }}
-            />
-          </div>
         </div>
+
+        {/* Fixed Add Book Button */}
+        {showAddButton && (
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => navigate("/books")}
+            style={{
+              position: "fixed",
+              bottom: "30px",
+              right: "30px",
+              backgroundColor: "#ff4d4f",
+              borderColor: "#ff4d4f",
+              zIndex: 50,
+              borderRadius: "50%",
+              width: "56px",
+              height: "56px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "24px",
+              boxShadow: "0 4px 12px rgba(255, 77, 79, 0.3)",
+              opacity: 1,
+              transition: "opacity 0.3s ease-in-out",
+            }}
+          >
+            +
+          </Button>
+        )}
 
         {/* Loading State */}
         {loading ? (
@@ -223,51 +261,8 @@ export default function Favorites() {
           </div>
         ) : (
           <Row gutter={[20, 20]}>
-            {/* Sidebar */}
-            <Col xs={24} lg={7} xl={6}>
-              <aside className={styles["favorites-sidebar"]}>
-                <div className={styles["favorites-filter-block"]}>
-                  <h3>Search</h3>
-                  <Input
-                    allowClear
-                    value={searchInput}
-                    onChange={(event) => setSearchInput(event.target.value)}
-                    placeholder="Search for books..."
-                    suffix={<SearchOutlined />}
-                  />
-                </div>
-
-                <div className={styles["favorites-filter-block"]}>
-                  <h3>Categories</h3>
-                  <div className={styles["favorites-category-list"]}>
-                    {categoryOptions.map((category) => {
-                      const isActive = activeCategories.includes(category);
-                      return (
-                        <Button
-                          key={category}
-                          type={isActive ? "primary" : "default"}
-                          onClick={() => {
-                            setActiveCategories((prev) => {
-                              if (prev.includes(category)) {
-                                return prev.filter(
-                                  (value) => value !== category,
-                                );
-                              }
-                              return [...prev, category];
-                            });
-                          }}
-                        >
-                          {category}
-                        </Button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </aside>
-            </Col>
-
-            {/* Main Content */}
-            <Col xs={24} lg={17} xl={18}>
+            {/* Main Content - Full Width */}
+            <Col xs={24}>
               {filteredBooks.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "60px 20px" }}>
                   <Empty
@@ -284,10 +279,18 @@ export default function Favorites() {
                   <div className={styles["favorites-list-wrap"]}>
                     <Row gutter={[16, 24]}>
                       {displayedFavorites.map((book) => (
-                        <Col key={book.id} xs={24} sm={12} md={8} lg={6}>
+                        <Col
+                          key={book.id}
+                          xs={24}
+                          sm={12}
+                          md={8}
+                          lg={5}
+                          style={{ minWidth: "20%", maxWidth: "20%" }}
+                        >
                           <BookCard
                             book={book}
                             onRemoveFavorite={handleRemoveFavorite}
+                            favoriteIds={favoriteIds}
                           />
                         </Col>
                       ))}
@@ -306,6 +309,7 @@ export default function Favorites() {
                           window.scrollTo({ top: 0, behavior: "smooth" });
                         }}
                         showSizeChanger={false}
+                        showQuickJumper
                       />
                     </div>
                   )}
@@ -328,6 +332,8 @@ export default function Favorites() {
       >
         <p>You need to login to view your favorite books.</p>
       </Modal>
+
+      <Footer />
     </div>
   );
 }

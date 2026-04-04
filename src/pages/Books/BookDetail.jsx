@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Tooltip, message } from "antd";
 import {
   CheckOutlined,
   HeartFilled,
@@ -9,7 +10,11 @@ import {
 import Header from "../../components/layout/Header";
 import Footer from "../../components/layout/Footer/Footer";
 import { getBookById } from "../../services/book";
-import { addFavorite, removeFavorite } from "../../services/favorites";
+import {
+  addFavorite,
+  removeFavorite,
+  getFavorites,
+} from "../../services/favorites";
 import "./BookDetail.css";
 
 const FALLBACK_IMAGE = "https://via.placeholder.com/400x560?text=Book";
@@ -26,7 +31,6 @@ const BookDetail = () => {
       try {
         const response = await getBookById(id);
         const payload = response?.data?.data || response?.data || null;
-        console.log("Fetched book details:", payload);
         setBook(payload);
       } catch (err) {
         setError("Failed to fetch book details.");
@@ -38,16 +42,44 @@ const BookDetail = () => {
     fetchBook();
   }, [id]);
 
+  // Check if book is already in favorites on mount
+  useEffect(() => {
+    if (!book?.id) return;
+
+    const checkIfFavorite = async () => {
+      try {
+        const response = await getFavorites();
+        if (
+          response?.data?.favoriteBooks &&
+          Array.isArray(response.data.favoriteBooks)
+        ) {
+          const favoriteIds = response.data.favoriteBooks.map((fav) => fav.id);
+          if (favoriteIds.includes(book.id)) {
+            setIsFavorited(true);
+          }
+        }
+      } catch (error) {
+        // Silent fail - don't show error to user
+      }
+    };
+
+    checkIfFavorite();
+  }, [book?.id]);
+
   const toggleFavorite = async () => {
     try {
       if (isFavorited) {
         await removeFavorite(book.id);
+        setIsFavorited(false);
+        message.success("Đã xóa khỏi danh sách yêu thích!");
       } else {
         await addFavorite(book.id);
+        setIsFavorited(true);
+        message.success("Đã thêm vào danh sách yêu thích!");
       }
-      setIsFavorited(!isFavorited);
     } catch (err) {
       console.error("Failed to toggle favorite:", err);
+      message.error("Có lỗi xảy ra!");
     }
   };
 
@@ -115,14 +147,22 @@ const BookDetail = () => {
               <button type="button" className="book-detail-add-btn">
                 Đọc sách
               </button>
-              <button
-                type="button"
-                className="book-detail-icon-btn"
-                aria-label="Favorite"
-                onClick={toggleFavorite}
+              <Tooltip
+                title={isFavorited ? "Remove from Wishlist" : "Add to Wishlist"}
+                placement="top"
               >
-                {isFavorited ? <HeartFilled /> : <HeartOutlined />}
-              </button>
+                <button
+                  type="button"
+                  className="book-detail-icon-btn"
+                  aria-label="Favorite"
+                  onClick={toggleFavorite}
+                  style={{
+                    color: isFavorited ? "#ff4d4f" : "#d9d9d9",
+                  }}
+                >
+                  {isFavorited ? <HeartFilled /> : <HeartOutlined />}
+                </button>
+              </Tooltip>
             </div>
 
             <div className="book-detail-meta">
