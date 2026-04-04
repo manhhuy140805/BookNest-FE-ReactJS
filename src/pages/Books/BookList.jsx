@@ -23,7 +23,9 @@ import apiClient from "../../config/api";
 import Footer from "../../components/layout/Footer/Footer";
 import { Pagination } from "antd";
 import GridView from "./components/GridView";
+import { getFavorites } from "../../services/favorites";
 import ListView from "./components/ListView";
+import { useAuth } from "../../hooks/useAuth";
 
 const sortOptions = [
   { label: "Default Sorting", value: "default" },
@@ -53,6 +55,7 @@ const renderRatingStars = (starCount) => {
 };
 
 export default function BookList() {
+  const { isAuthenticated } = useAuth();
   const [searchInput, setSearchInput] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [activeCategories, setActiveCategories] = useState([]);
@@ -65,6 +68,7 @@ export default function BookList() {
   const [reviewBuckets, setReviewBuckets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [favoriteIds, setFavoriteIds] = useState([]);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -73,7 +77,6 @@ export default function BookList() {
         setError(null);
         const response = await apiClient.get("/book");
         if (Array.isArray(response.data)) {
-          console.log("Fetched books:", response.data);
           setBooks(response.data);
         } else {
           console.error("Unexpected response format:", response.data);
@@ -94,12 +97,37 @@ export default function BookList() {
     fetchBooks();
   }, []);
 
+  // Fetch favorite books on mount (only if authenticated)
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    const fetchFavoriteIds = async () => {
+      try {
+        const response = await getFavorites();
+
+        // API returns {id, fullName, favoriteBooks: [...]}
+        if (
+          response?.data?.favoriteBooks &&
+          Array.isArray(response.data.favoriteBooks)
+        ) {
+          const ids = response.data.favoriteBooks.map((fav) => fav.id);
+          setFavoriteIds(ids);
+        }
+      } catch (error) {
+        console.error("❌ Failed to fetch favorites:", error.message);
+      }
+    };
+
+    fetchFavoriteIds();
+  }, [isAuthenticated]);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await apiClient.get("/category");
         if (Array.isArray(response.data)) {
-          console.log("Fetched categories:", response.data);
           const categoryNames = response.data.map((cat) => cat.name);
           setCategories(categoryNames);
         } else if (response.data?.data && Array.isArray(response.data.data)) {
@@ -239,7 +267,7 @@ export default function BookList() {
               minHeight: "400px",
             }}
           >
-            <Spin size="large" tip="Đang tải danh sách sách..." />
+            <Spin size="large" description="Đang tải danh sách sách..." />
           </div>
         ) : filteredBooks.length === 0 ? (
           // Empty State
@@ -338,7 +366,7 @@ export default function BookList() {
                   <div className="books-filter-block">
                     <h3>By Review</h3>
                     <Space
-                      direction="vertical"
+                      orientation="vertical"
                       size={8}
                       className="books-review-list"
                     >
@@ -370,9 +398,9 @@ export default function BookList() {
               <Col xs={24} lg={17} xl={18}>
                 <div className="books-list-wrap">
                   {viewMode === "grid" ? (
-                    <GridView books={currentBooks} />
+                    <GridView books={currentBooks} favoriteIds={favoriteIds} />
                   ) : (
-                    <ListView books={currentBooks} />
+                    <ListView books={currentBooks} favoriteIds={favoriteIds} />
                   )}
 
                   <div
