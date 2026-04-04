@@ -63,3 +63,19 @@ export const changePassword = (data) => {
 export const verifyEmailByLink = (verifyLink) => {
   return apiClient.get(verifyLink);
 };
+
+/**
+ * Request password reset
+ * @param {Object} data - { email }
+ */
+export const forgotPassword = (data) => {
+  return apiClient.post("/auth/forgot-password", data);
+};
+
+/**
+ * Reset password with token
+ * @param {Object} data - { token, newPassword, confirmPassword }
+ */
+export const resetPassword = (data) => {
+  return apiClient.post("/auth/reset-password", data);
+};
