@@ -7,6 +7,7 @@ import Home from "../pages/Home/Home";
 import BookList from "../pages/Books/BookList";
 import Favorites from "../pages/Favorites/Favorites";
 import BookDetail from "../pages/Books/BookDetail";
+import Contact from "../pages/Contact/Contact";
 
 function AppRoutes() {
   return (
@@ -21,6 +22,7 @@ function AppRoutes() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/books/:id" element={<BookDetail />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
   );
