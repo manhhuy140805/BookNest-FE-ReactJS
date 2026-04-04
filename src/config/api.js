@@ -28,17 +28,16 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
+      // Token expired or invalid - clear stored credentials
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      
-      // Only redirect if not already on login page
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = "/login";
-      }
+
+      // Dispatch a global event so any listening component can react
+      window.dispatchEvent(new CustomEvent("auth:token-expired"));
     }
     return Promise.reject(error);
   },
 );
+
 
 export default apiClient;
