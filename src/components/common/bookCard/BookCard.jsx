@@ -1,10 +1,54 @@
-import { Tooltip } from "antd";
-import { StarFilled, HeartOutlined, ArrowsAltOutlined, EyeOutlined } from "@ant-design/icons";
+import { Tooltip, message } from "antd";
+import {
+  StarFilled,
+  HeartOutlined,
+  HeartFilled,
+  ArrowsAltOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
 import styles from "./BookCard.module.css";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { addFavorite, removeFavorite } from "../../../services/favorites";
 
-export default function BookCard({ book, onRemoveFavorite }) {
+export default function BookCard({ book, onRemoveFavorite, favoriteIds = [] }) {
   const navigate = useNavigate();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // Check if book is in favorites based on favoriteIds prop
+  useEffect(() => {
+    if (book?.id && favoriteIds.includes(book.id)) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
+  }, [book?.id, favoriteIds]);
+
+  const handleAddToWishlist = async () => {
+    if (!book?.id) return;
+
+    try {
+      setLoading(true);
+      
+      if (isFavorite) {
+        // Remove from favorites
+        await removeFavorite(book.id);
+        setIsFavorite(false);
+        message.success("Đã xóa khỏi danh sách yêu thích!");
+      } else {
+        // Add to favorites
+        await addFavorite(book.id);
+        setIsFavorite(true);
+        message.success("Đã thêm vào danh sách yêu thích!");
+      }
+    } catch (error) {
+      console.error("Failed to update favorite:", error);
+      message.error("Có lỗi xảy ra!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleRemove = () => {
     if (
@@ -52,9 +96,13 @@ export default function BookCard({ book, onRemoveFavorite }) {
 
         {/* Hover Actions */}
         <div className={styles.hoverActions}>
-          <Tooltip title="Add to Wishlist" placement="left">
-            <button className={styles.actionBtn}>
-              <HeartOutlined />
+          <Tooltip title={isFavorite ? "Remove from Wishlist" : "Add to Wishlist"} placement="left">
+            <button
+              className={`${styles.actionBtn} ${isFavorite ? styles.activeWishlist : ""}`}
+              onClick={handleAddToWishlist}
+              disabled={loading}
+            >
+              {isFavorite ? <HeartFilled /> : <HeartOutlined />}
             </button>
           </Tooltip>
           <Tooltip title="Quick View" placement="left">
@@ -78,9 +126,7 @@ export default function BookCard({ book, onRemoveFavorite }) {
 
         <div className={styles.infoRow}>
           <div className={styles.authorContainer}>
-            <span className={styles.author}>
-              {book?.author || "Tác giả"}
-            </span>
+            <span className={styles.author}>{book?.author || "Tác giả"}</span>
           </div>
           <div className={styles.rating}>
             <StarFilled className={styles.starIcon} />

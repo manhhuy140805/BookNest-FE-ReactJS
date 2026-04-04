@@ -83,7 +83,7 @@ const ResetPassword = () => {
           backgroundColor: "#f8f9fa",
         }}
       >
-        <Spin size="large" tip="Verifying reset link..." />
+        <Spin size="large" description="Verifying reset link..." />
       </div>
     );
   }

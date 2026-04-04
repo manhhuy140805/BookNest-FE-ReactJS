@@ -4,7 +4,7 @@ import { StarFilled } from "@ant-design/icons";
 import { Spin, Empty } from "antd";
 import "./ListView.css";
 
-const ListView = ({ books, loading = false }) => {
+const ListView = ({ books, favoriteIds = [], loading = false }) => {
   const navigate = useNavigate();
 
   const handleViewDetails = (id) => {
@@ -23,7 +23,7 @@ const ListView = ({ books, loading = false }) => {
           minHeight: "400px",
         }}
       >
-        <Spin size="large" tip="Đang tải danh sách sách..." />
+        <Spin size="large" description="Đang tải danh sách sách..." />
       </div>
     );
   }

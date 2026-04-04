@@ -219,7 +219,7 @@ export default function Favorites() {
         {/* Loading State */}
         {loading ? (
           <div style={{ textAlign: "center", padding: "60px 20px" }}>
-            <Spin size="large" tip="Loading favorite books..." />
+            <Spin size="large" description="Loading favorite books..." />
           </div>
         ) : (
           <Row gutter={[20, 20]}>
