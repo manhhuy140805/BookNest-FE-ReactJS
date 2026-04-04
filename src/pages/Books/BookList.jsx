@@ -61,7 +61,7 @@ export default function BookList() {
   const [activeCategories, setActiveCategories] = useState([]);
   const [activeRatings, setActiveRatings] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const booksPerPage = 8;
+  const booksPerPage = 16;
   const [viewMode, setViewMode] = useState("grid");
   const [categories, setCategories] = useState([]);
   const [books, setBooks] = useState([]);
