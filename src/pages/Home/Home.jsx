@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Header from "../../components/layout/Header";
 import HeroSection from "./components/HeroSection";
+import FeaturedBooks from "./components/FeaturedBooks";
+import TopCategories from "./components/TopCategories";
 import SessionExpiredModal from "../../components/common/SessionExpiredModal";
 import { isTokenExpired } from "../../utils/tokenUtils";
 
@@ -21,6 +23,8 @@ export default function Home() {
     <div>
       <Header />
       <HeroSection />
+      <FeaturedBooks />
+      <TopCategories />
 
       {showExpiredModal && (
         <SessionExpiredModal onClose={() => setShowExpiredModal(false)} />
